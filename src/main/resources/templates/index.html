@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: head">...</head>
+
+<body>
+
+	<div class="page">
+		<div th:replace="fragments/header :: header">header</div>
+		<form action="#" th:action="@{/open}" method="post" class="content container-fluid">
+
+			<div class="row">
+				<div class="col">
+					<div class="row">
+						<div class="col">
+							<script>
+							$(document).ready(function(){
+							  $("#example-file").click(function(){
+								var myFile = $('#example-file').prop('files');
+								$('#example-file').change(function(e){
+								        var fileName = e.target.files[0].name;
+								        var tmppath = URL.createObjectURL(e.target.files[0]);
+								        $("#textarea-example").load(tmppath);
+								});
+								
+							   
+							  });
+							});
+							</script>
+							<label for="example-file" class="small-button btn btn-outline-secondary d-inline-flex justify-content-center align-content-between">
+							     Open File
+							</label>
+							<input id="example-file" type="file"/>
+				
+						</div>
+						<div class="col">
+							Examples:
+							<script th:inline="javascript" th:each="example : ${examples}">
+							$(document).ready(function(){
+							  $("#example-[[${example.position}]]").click(function(){
+							
+				
+							  	$.get('api/examples/[(${example.name})]',function( data ) {
+							  		 $("#textarea-example").val(data);
+							  	});
+							   
+							  });
+							});
+							</script>
+							<ul class="examples">
+								<li class="example" 
+									th:each="example : ${examples}" 
+									th:text="${example.position}"
+									th:id="|example-${example.position}|"
+								>1</li>
+							</ul>
+						</div>
+					</div>
+					<div class="row">
+						<div class=" shadow-lg p-3 mb-5 bg-white rounded">
+							<textarea id="textarea-example" name="input" class="form-control occam-input overflow-auto" aria-label="With textarea">
+/
+@triangle1
+shape/type/triangle
+shape/size/big
+shape/line/red
+shape/filling/green
+/
+@triangle2
+shape/type/triangle
+shape/size/big
+shape/line/blue
+shape/filling/green
+/
+@triangle3
+shape/type/triangle
+shape/size/small
+shape/line/green
+shape/filling/red
+/
+@triangle4
+shape/type/triangle
+shape/size/small
+shape/line/blue
+shape/filling/green
+/
+@circle5
+shape/type/circle
+shape/size/small
+shape/line/red
+shape/filling/yellow
+						
+							</textarea>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col">
+
+
+						<div class="process">
+							<button type="submit"
+								class="btn btn-primary d-inline-flex justify-content-center align-content-between">
+								<span class="material-icons icon-padding">account_tree</span> Process
+							</button>
+						</div>
+			
+
+			</div>
+
+
+		</form>
+		<div th:replace="fragments/footer :: footer">footer</div>
+	</div>
+
+</body>
+
+</html>

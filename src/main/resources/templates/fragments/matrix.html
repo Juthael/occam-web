@@ -1,0 +1,21 @@
+
+<div th:fragment="matrix (m)" class="artifact">
+	<div class="row">
+
+		
+		    <table class="matrix table table-striped">
+		    	<thead>
+		    		<tr>
+						<th th:each="header : ${m.headers}" th:text="${header}">name</th>
+					</tr>
+		    	</thead>
+		    	<tbody>
+		    		<tr th:each="row : ${m.rows}">
+		    			<td th:each="c : ${row.columns}" th:text="${c}">value</td>
+		    		</tr>
+		    	</tbody>
+		    </table>
+	  
+	
+    </div>
+</div>

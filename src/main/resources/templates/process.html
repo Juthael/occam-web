@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: head">...</head>
+
+<body>
+
+	<div class="page">
+		<div th:replace="fragments/header :: header">header</div>
+		<div class="content container-fluid">
+			<div style="padding-bottom:30px;">
+				<a href="/index.html">
+				<button type="button" class="btn btn-primary d-inline-flex justify-content-center align-content-between">
+					<span class="material-icons icon-padding">refresh</span>
+					Use another input domain
+				</button>
+				</a>
+			</div>
+			
+			<div class="row">
+				<div class="col-9">
+					<div class="box-left overflow-auto shadow-lg p-3 mb-5 bg-white rounded">
+						<div th:replace="fragments/context :: context">this is the problem context</div>
+						<div th:replace="fragments/space :: space">this is the problem space</div>
+						<div th:replace="fragments/representations :: representations">this is the problem representations</div>
+					</div>
+				</div>
+				<form class="col-3 actions-menu" method="post" action="#" th:action="@{/process/action}">
+						<div class="actions-menu-title">Action on a representation</div>
+				
+					    <div class="btn-toolbar mb-3" role="toolbar">
+						  <div class="input-group">
+						    <div class="input-group-prepend">
+						      <div class="input-group-text" id="btnGroupAddon">ID</div>
+						    </div>
+						    <input type="text" name="representation" class="form-control" placeholder="ID of the representation" aria-label="ID of the representation" aria-describedby="btnGroupAddon">
+						  </div>
+						</div>
+						<div class="btn-group mr-2" role="group" aria-label="First group">
+							<input type="hidden" name="action" value="submit" />
+						    <button id="display-submit" type="submit" name="submit" value="display" data-toggle="tooltip" data-placement="bottom" title="Display the selected representation in the left panel" class="btn btn-primary">Display</button>
+						    <button id="deepen-submit"  type="submit" name="submit" value="deepen" data-toggle="tooltip" data-placement="bottom" title="Deepen the selected representation and display updated problem space in the left panel" class="btn btn-primary">Deepen</button>
+						</div>
+					   
+  				
+				</form>
+			</div>
+		</div>
+		<div th:replace="fragments/footer :: footer">footer</div>
+	</div>
+
+</body>
+
+</html>

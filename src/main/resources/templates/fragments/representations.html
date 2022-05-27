@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+
+<body>
+    <representations>
+ 		<div  class="process-block " th:if="${representation?.id}">
+	    	<h2>  REPRESENTATION N.<span th:text="${representation.id}">  </h2>
+	    	<div>
+				
+				<div>
+					<h3> GENUS / DIFFERENTIAE DESCRIPTION </h3>
+					<div>
+						<img  class="img-fluid"  src="/figures/description.png"></img>
+					</div>
+					<h3> SIMILARITY </h3>
+					<div>
+						<h4> SIMILARITY MATRIX </h4>
+							<div>
+								<div th:replace="fragments/matrix.html:: matrix(m=${representation.similarity.similarityMatrix})"></div>
+							</div>
+						
+						<h4> ASYMMETRICAL SIMILARITY MATRIX </h4>
+							<div>
+								<div th:replace="fragments/matrix.html:: matrix(m=${representation.similarity.asymetricalSimilarityMatrix})"></div>
+							</div>
+						
+						<h4> TYPICALITY VECTOR </h4>
+							<div>
+								<div th:replace="fragments/matrix.html:: matrix(m=${representation.similarity.typicalityVector})"></div>
+							</div>
+					</div>
+					<h3> AUTOMATON TRANSITION FUNCTION </h3>	
+					<div>
+						<img  class="img-fluid center"  src="/figures/trans_func.png"></img>
+					</div>
+					
+					<h3> ACCEPTED FACTS </h3>
+			
+						
+						    <table class="table">
+						    	<thead>
+						    		<tr>
+										<th th:each="header : ${representation.acceptedFacts.headers}" th:text="${header}">name</th>
+									</tr>
+						    	</thead>
+						    	<tbody>
+						    		<tr >
+						    			<td th:each="fact : ${representation.acceptedFacts.facts}">
+						    				<div  th:each="fv : ${fact.values}" th:text="${fv}">
+						    				</div>
+						    			</td>
+						    		</tr>
+						    	</tbody>
+						    </table>
+					   
+					<h3> CLASSIFICATION TREE </h3>
+					<div>
+						<img  class="img-fluid"  src="/figures/classification_tree.png"></img>
+					</div>
+				</div>
+			</div>
+		</div>
+    </representations>
+</body>
+
+</html>

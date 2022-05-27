@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+
+<body>
+    <context>
+    <div class="process-block ">
+		<h2> CONTEXT </h2>
+		<div class="process-block-content">
+			<table class="table table-sm">
+				<caption th:if="${context?.caption}" th:text="${context.caption}"></caption>
+				<thead class="thead-light">
+					<tr>
+						<th th:each="header : ${context.headers}" th:text="${header.title}"></th>
+					</tr>
+					<tr th:if="${context.hasSubtitle()}" >
+						<td  th:each="header : ${context.headers}" th:text="${header.subtitle}"></td>
+					</tr>
+				</thead>
+				<tbody>
+					
+					<tr>
+						<td th:each="constructs : ${context.constructs}">
+							<div th:each="cv : ${constructs.values}" th:text="${cv}"></div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	
+    </context>
+</body>
+
+</html>

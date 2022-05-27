@@ -1,0 +1,11 @@
+/
+figure/forme/carré
+figure/trait/épaisseur/épais
+figure/trait/couleur/rouge
+figure/fond/couleur/bleu
+/
+figure/forme/triangle
+figure/trait/épaisseur/épais
+figure/trait/couleur/bleu
+figure/fond/rayures/orientation/horizontale
+figure/fond/rayures/couleur/vert

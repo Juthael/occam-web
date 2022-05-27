@@ -1,0 +1,210 @@
+body {
+	
+	
+	height: 100vh;
+	font-family: 'Noto Sans', sans-serif;
+}
+
+header {
+	 background-image: url('/images/head.png');
+     height: 200px;
+     color:white;
+text-align: center;
+   
+}
+
+.matrix {
+
+}
+
+.content{
+
+	padding:50px;
+}
+
+
+
+.process-block{
+	margin:0px;
+
+	padding:20px;
+
+
+}
+
+.artifact {
+	text-align:center;
+}
+
+
+.process-block h2{
+	background-color: #0a5ed7;
+	color:white;
+	padding:10px;
+
+}
+
+.process-block h3{
+
+}
+
+
+.process-block-content{
+	margin:15px;
+	background-color:white;
+}
+
+h1{
+	font-size:2em;
+	
+}
+
+
+h2{
+	font-size:1.5em;
+	
+}
+
+
+h3{
+	padding-top:30px;
+	font-size:1.3em;
+	text-decoration: underline;
+	
+}
+
+h4{
+padding-top:30px;
+	font-size:1.1em;
+	
+}
+
+
+.title-main{
+	font-weight: bold;
+	font-size:32px;
+}
+
+.title-cite{
+	color:rgba(255, 255, 255, 0.601);
+	font-size:16px;
+}
+
+.page {
+	width: 100%;
+	height: 100%;
+}
+
+.content{
+	height:80%;
+}
+
+.icon-padding{
+
+	padding-right:10px;
+}
+
+.footer{
+	height:10%;
+}
+
+.examples {
+	display: inline-flex;
+	margin-left: 12px;
+	max-width: 100%;
+	flex-flow: row wrap;
+
+}
+.example {
+	position: relative;
+	background: #625d52;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 24px;
+	height: 24px;
+
+	color: #fff;
+	font-weight: 700;
+	border-radius: 50%;
+	margin: 2px;
+	padding: 4px 8px;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	cursor: pointer;
+ 
+}
+
+.example:hover {
+	background:#274f9f;
+ 
+}
+
+.occam-input{
+	height:500px;
+	font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New;
+	font-size:12px;
+	border: 0px;
+}
+
+.small-button {
+	font-size:12px;
+}
+
+.process {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 0 48px;
+	text-align:center;
+}
+
+.process button {
+	width:200px;
+
+}
+
+.box-left{
+	max-height:80vh;
+	
+}
+
+.actions-menu {
+	max-height:400px;
+	background:#f2f2f2;
+	padding:20px;
+	
+}
+
+.action-description{
+
+}
+
+.actions-menu-title{
+	font-size:18px;
+	font-weight:bold;
+	padding-bottom:10px;
+}
+
+.action-description input {
+	background:white;
+}
+
+table {
+	text-align: center;
+}
+input[type="file"] {
+    display: none;
+}
+
+textarea {
+
+
+    resize: none; /*remove the resize handle on the bottom right*/
+}
+
+/* Point-zoom Container */.point-img-zoom img {  transform-origin: 65% 75%;  transition: transform 1s, filter .5s ease-out;}/* The Transformation */.point-img-zoom:hover img {  transform: scale(5);}
