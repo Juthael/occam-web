@@ -9,7 +9,7 @@ import com.tregouet.occam.alg.OverallStrategy;
 @SpringBootApplication
 public class OccamWebApplication {
 
-	public static final OverallStrategy strategy = OverallStrategy.OVERALL_STRATEGY_2;
+	public static final OverallStrategy strategy = OverallStrategy.OVERALL_STRATEGY_3;
 
 	public static void initialize() {
 		OverallAbstractFactory.INSTANCE.apply(strategy);

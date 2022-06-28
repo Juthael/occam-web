@@ -15,8 +15,8 @@ import org.slf4j.LoggerFactory;
 import com.tregouet.occam.data.problem_space.IProblemSpace;
 import com.tregouet.occam.data.problem_space.impl.ProblemSpace;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
-import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occamweb.problem.ProblemSpaceMessage.State;
 import com.tregouet.occamweb.problem.figures.BasicConceptGraphViz;
@@ -90,7 +90,7 @@ public class ProblemSpaceWorker {
 		if (problemSpace == null) {
 			return new ProblemSpaceMessage(State.ERROR, "Problem space has not been initialized");
 		}
-		Boolean result = problemSpace.deepen(id);
+		Boolean result = problemSpace.develop(id);
 		if (result == null) {
 			return new ProblemSpaceMessage(State.ERROR, "No representation has this ID.");
 		} else if (!result) {
@@ -109,7 +109,7 @@ public class ProblemSpaceWorker {
 			if (activeRepresentation != null) {
 				new BasicDescriptionViz(directory).apply(activeRepresentation.getDescription(), "description");
 				new BasicTransitionFunctionViz(directory).apply(activeRepresentation.getTransitionFunction(), "trans_func");
-				new BasicConceptGraphViz(directory).apply(activeRepresentation.getTreeOfConcepts(), "classification_tree");
+				new BasicConceptGraphViz(directory).apply(activeRepresentation.getClassification().asGraph(), "classification_tree");
 			}
 		}
 	}

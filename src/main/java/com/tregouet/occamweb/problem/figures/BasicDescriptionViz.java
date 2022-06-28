@@ -16,7 +16,7 @@ import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.alg.displayers.formatters.differentiae.DifferentiaeLabeller;
 import com.tregouet.occam.alg.displayers.visualizers.descriptions.DescriptionViz;
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
 import com.tregouet.tree_finder.data.Tree;
 
 import guru.nidi.graphviz.engine.Format;
@@ -33,7 +33,7 @@ public class BasicDescriptionViz implements DescriptionViz {
 
 	@Override
 	public String apply(IDescription description, String fileName) {
-		DifferentiaeLabeller diffDisplayer = FormattersAbstractFactory.INSTANCE.getDifferentiaeDisplayer();
+		DifferentiaeLabeller diffDisplayer = FormattersAbstractFactory.INSTANCE.getDifferentiaeLabeller();
 		Tree<Integer, ADifferentiae> descGraph = description.asGraph();
 		// convert in DOT format
 		DOTExporter<Integer, ADifferentiae> exporter = new DOTExporter<>();
