@@ -28,6 +28,7 @@ import com.tregouet.occam.data.problem_space.IProblemSpace;
 import com.tregouet.occamweb.examples.ExampleService;
 import com.tregouet.occamweb.problem.models.ContextTableModel;
 import com.tregouet.occamweb.problem.models.ExampleModel;
+import com.tregouet.occamweb.problem.models.ProblemSpaceModel;
 import com.tregouet.occamweb.problem.models.RepresentationModel;
 
 @Controller
@@ -68,10 +69,12 @@ public class ProblemSpaceController {
 						if (action.equals("develop"))
 							worker.developRepresentations(iDs);
 						else worker.restrictToRepresentations(iDs);
+						model.addAttribute("space", new ProblemSpaceModel(worker.getProblemSpace()));
 					}
 				}
 				else if (action.equals("fully-expand")) {
 					worker.fullyExpandProblemSpace();
+					model.addAttribute("space", new ProblemSpaceModel(worker.getProblemSpace()));
 				}
 				else if (action.equals("display-representation")) {
 					//HERE
@@ -89,11 +92,13 @@ public class ProblemSpaceController {
 		ContextTableModel context = new ContextTableModel(problemSpace);
 		model.addAttribute("context", context);
 		model.addAttribute("representation", new RepresentationModel(problemSpace));
+		model.addAttribute("space", new ProblemSpaceModel(problemSpace));
 	}
 
 	@RequestMapping(value = "/figures/{file_name}", method = RequestMethod.GET,produces =  MediaType.IMAGE_PNG_VALUE)
 	@ResponseBody
-	public FileSystemResource getFigureImage(@ModelAttribute("state") final ProblemState state,@PathVariable("file_name") final String fileName) {
+	public FileSystemResource getFigureImage(@ModelAttribute("state") final ProblemState state, 
+			@PathVariable("file_name") final String fileName) {
 		ProblemSpaceWorker worker = this.problems.getOrCreateWorker(state.getId());
 		IProblemSpace problemSpace = worker.getProblemSpace();
 		if (problemSpace != null) {
@@ -120,7 +125,6 @@ public class ProblemSpaceController {
 	@GetMapping("process.html")
 	public String load(@ModelAttribute("state") final ProblemState state, final Model model) {
 		ProblemSpaceWorker worker = this.problems.getOrCreateWorker(state.getId());
-
 		IProblemSpace problemSpace = worker.getProblemSpace();
 		if (problemSpace != null) {
 			fill(model, problemSpace);

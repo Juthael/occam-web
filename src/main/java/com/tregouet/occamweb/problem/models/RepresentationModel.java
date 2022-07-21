@@ -13,6 +13,7 @@ import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
 
 public class RepresentationModel {
+	
 	public static class Similarity {
 		private MatrixModel similarityMatrix;
 		private MatrixModel asymetricalSimilarityMatrix;

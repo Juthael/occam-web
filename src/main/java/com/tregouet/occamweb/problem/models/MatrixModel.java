@@ -1,11 +1,14 @@
 package com.tregouet.occamweb.problem.models;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MatrixModel {
 	private List<String> headers;
 	private List<Row> rows= new ArrayList<>();
+	private MathContext mathContext = new MathContext(3);
 	
 	public static class Row {
 		private String iD;
@@ -39,7 +42,8 @@ public class MatrixModel {
 		for (int i = 0; i < values.length; i++) {
 			Row row = new Row(headers.get(i));
 			for (int j = 0; j < values[i].length; j++) {
-				row.columns.add(String.valueOf(values[i][j]));
+				BigDecimal value = new BigDecimal(values[i][j]).round(mathContext);
+				row.columns.add(value.toString());
 			}
 			rows.add(row);
 		}

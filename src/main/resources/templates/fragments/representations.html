@@ -15,19 +15,9 @@
 					</div>
 					<h3> SIMILARITY </h3>
 					<div>
-						<h4> SIMILARITY MATRIX </h4>
+						<h4> RELATIVE SIMILARITY MATRIX </h4>
 							<div>
 								<div th:replace="fragments/matrix.html:: matrix(m=${representation.similarity.similarityMatrix})"></div>
-							</div>
-						
-						<h4> ASYMMETRICAL SIMILARITY MATRIX </h4>
-							<div>
-								<div th:replace="fragments/matrix.html:: matrix(m=${representation.similarity.asymetricalSimilarityMatrix})"></div>
-							</div>
-						
-						<h4> TYPICALITY VECTOR </h4>
-							<div>
-								<div th:replace="fragments/matrix.html:: matrix(m=${representation.similarity.typicalityVector})"></div>
 							</div>
 					</div>
 					<h3> AUTOMATON TRANSITION FUNCTION </h3>	
