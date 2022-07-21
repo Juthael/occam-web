@@ -73,9 +73,6 @@ public class ProblemSpaceController {
 				else if (action.equals("fully-expand")) {
 					worker.fullyExpandProblemSpace();
 				}
-				else if (action.equals("display-lattice") || action.equals("hide-lattice")) {
-					
-				}
 				else if (action.equals("display-representation")) {
 					//HERE
 					worker.displayRepresentation(Integer.parseInt(repID));

@@ -23,6 +23,7 @@
 						<div th:replace="fragments/context :: context">this is the problem context</div>
 						<div th:replace="fragments/space :: space">this is the problem space</div>
 						<div th:replace="fragments/representations :: representations">this is the problem representations</div>
+						<div th:replace="fragments/concept-lattice :: concept-lattice">this is the concept lattice</div>
 					</div>
 				</div>
 				<form class="col-3 actions-menu" method="post" action="#" th:action="@{/process/action}">
@@ -49,14 +50,6 @@
 								<input type="hidden" name="action" value="submit" />
 							    <button id="fully-expand-submit"  type="submit" name="submit" value="fully-expand" data-toggle="tooltip" data-placement="bottom" title="WARNING : may result in program freeze if problem space is too large" class="btn btn-primary">Fully expand</button>
 							</div>	
-						</div>
-						
-						<div class="actions-menu-title">Concept lattice</div>
-						
-						<div class="btn-group mr-2 mb-3" role="group" aria-label="Third group">
-							<input type="hidden" name="action" value="submit" />
-						    <button id="display-lattice-submit" type="submit" name="submit" value="display-lattice" data-toggle="tooltip" data-placement="bottom" title="Display the concept lattice in the left panel" class="btn btn-primary">Display</button>
-						    <button id="hide-lattice-submit" type="submit" name="submit" value="hide-lattice" data-toggle="tooltip" data-placement="bottom" title="Hide the concept lattice in the left panel" class="btn btn-primary">Hide</button>
 						</div>
 						
 						<div class="actions-menu-title">Representations</div>						
