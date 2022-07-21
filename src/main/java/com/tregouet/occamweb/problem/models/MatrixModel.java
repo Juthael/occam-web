@@ -1,9 +1,9 @@
-package com.tregouet.occamweb.problem.model;
+package com.tregouet.occamweb.problem.models;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Matrix {
+public class MatrixModel {
 	private List<String> headers;
 	private List<Row> rows= new ArrayList<>();
 	
@@ -25,12 +25,12 @@ public class Matrix {
 		}
 	}
 
-	public Matrix(List<String>headers, double[][] values) {
+	public MatrixModel(List<String>headers, double[][] values) {
 		this(headers);
 		fill(values);
 	}
 	
-	public Matrix(List<String>headers, String[][] values) {
+	public MatrixModel(List<String>headers, String[][] values) {
 		this(headers);
 		fill(values);
 	}
@@ -55,7 +55,7 @@ public class Matrix {
 		}
 	}
 	
-	public Matrix(List<String>headers,double[] values) {
+	public MatrixModel(List<String>headers,double[] values) {
 		this(headers);
 		double[][] m= new double[1][values.length];
 		m[0]=values;
@@ -63,7 +63,7 @@ public class Matrix {
 	}
 	
 	
-	public Matrix(List<String> headers) {
+	public MatrixModel(List<String> headers) {
 		this.headers = headers;
 	}
 

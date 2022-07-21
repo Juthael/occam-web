@@ -1,4 +1,4 @@
-package com.tregouet.occamweb.problem.model;
+package com.tregouet.occamweb.problem.models;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,11 +12,11 @@ import com.tregouet.occam.data.problem_space.IProblemSpace;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
 
-public class Representation {
+public class RepresentationModel {
 	public static class Similarity {
-		private Matrix similarityMatrix;
-		private Matrix asymetricalSimilarityMatrix;
-		private Matrix typicalityVector;
+		private MatrixModel similarityMatrix;
+		private MatrixModel asymetricalSimilarityMatrix;
+		private MatrixModel typicalityVector;
 
 		public Similarity(IProblemSpace space, IRepresentation representation) {
 			super();
@@ -25,24 +25,24 @@ public class Representation {
 				smh.add(Integer.toString(obj.iD()));
 			}
 
-			similarityMatrix = new Matrix(smh,
+			similarityMatrix = new MatrixModel(smh,
 					representation.getDescription().getSimilarityMetrics().getSimilarityMatrix());
-			asymetricalSimilarityMatrix = new Matrix(smh,
+			asymetricalSimilarityMatrix = new MatrixModel(smh,
 					representation.getDescription().getSimilarityMetrics().getAsymmetricalSimilarityMatrix());
-			typicalityVector = new Matrix(smh,
+			typicalityVector = new MatrixModel(smh,
 					representation.getDescription().getSimilarityMetrics().getTypicalityVector());
 
 		}
 
-		public Matrix getAsymetricalSimilarityMatrix() {
+		public MatrixModel getAsymetricalSimilarityMatrix() {
 			return asymetricalSimilarityMatrix;
 		}
 
-		public Matrix getSimilarityMatrix() {
+		public MatrixModel getSimilarityMatrix() {
 			return similarityMatrix;
 		}
 
-		public Matrix getTypicalityVector() {
+		public MatrixModel getTypicalityVector() {
 			return typicalityVector;
 		}
 
@@ -115,7 +115,7 @@ public class Representation {
 	private Similarity similarity;
 	private Facts acceptedFacts;
 
-	public Representation(IProblemSpace space) {
+	public RepresentationModel(IProblemSpace space) {
 		super();
 		IRepresentation active = space.getActiveRepresentation();
 		if (active != null) {

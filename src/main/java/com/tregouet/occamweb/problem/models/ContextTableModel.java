@@ -1,4 +1,4 @@
-package com.tregouet.occamweb.problem.model;
+package com.tregouet.occamweb.problem.models;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 import com.tregouet.occam.data.problem_space.IProblemSpace;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
 
-public class ContextTable {
+public class ContextTableModel {
 
 	public static class ContextConstructs {
 		private List<String> values;
@@ -59,7 +59,7 @@ public class ContextTable {
 	private List<ContextConstructs> constructs = new ArrayList<>();
 	private String caption = "Context table";
 
-	public ContextTable(IProblemSpace space) {
+	public ContextTableModel(IProblemSpace space) {
 		
 		for (IContextObject object : space.getContext()) {
 			ContextHeader header = new ContextHeader(String.valueOf(object.iD()));

@@ -26,9 +26,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.tregouet.occam.data.problem_space.IProblemSpace;
 import com.tregouet.occamweb.examples.ExampleService;
-import com.tregouet.occamweb.problem.model.ContextTable;
-import com.tregouet.occamweb.problem.model.Example;
-import com.tregouet.occamweb.problem.model.Representation;
+import com.tregouet.occamweb.problem.models.ContextTableModel;
+import com.tregouet.occamweb.problem.models.ExampleModel;
+import com.tregouet.occamweb.problem.models.RepresentationModel;
 
 @Controller
 @SessionAttributes("state")
@@ -86,9 +86,9 @@ public class ProblemSpaceController {
 	}
 
 	private void fill(final Model model, final IProblemSpace problemSpace) {
-		ContextTable context = new ContextTable(problemSpace);
+		ContextTableModel context = new ContextTableModel(problemSpace);
 		model.addAttribute("context", context);
-		model.addAttribute("representation", new Representation(problemSpace));
+		model.addAttribute("representation", new RepresentationModel(problemSpace));
 	}
 
 	@RequestMapping(value = "/figures/{file_name}", method = RequestMethod.GET,produces =  MediaType.IMAGE_PNG_VALUE)
@@ -108,12 +108,12 @@ public class ProblemSpaceController {
 
 	@GetMapping("index.html")
 	public String index(final Model model) {
-		List<Example> examples = new ArrayList<>();
+		List<ExampleModel> exampleModels = new ArrayList<>();
 		int position = 1;
 		for (String name : this.examples.getExamples()) {
-			examples.add(new Example(name, position++));
+			exampleModels.add(new ExampleModel(name, position++));
 		}
-		model.addAttribute("examples", examples);
+		model.addAttribute("examples", exampleModels);
 		return "index";
 	}
 
