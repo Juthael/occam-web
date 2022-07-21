@@ -86,7 +86,7 @@ public class ProblemSpaceWorker {
 
 	}
 
-	public ProblemSpaceMessage deepenRepresentation(int id) {
+	public ProblemSpaceMessage developRepresentation(int id) {
 		if (problemSpace == null) {
 			return new ProblemSpaceMessage(State.ERROR, "Problem space has not been initialized");
 		}
@@ -99,6 +99,49 @@ public class ProblemSpaceWorker {
 		generateFigures();
 
 		return new ProblemSpaceMessage(State.OK, "Representation has been developed");
+	}
+	
+	public ProblemSpaceMessage developRepresentations(List<Integer> iDs) {
+		if (problemSpace == null) {
+			return new ProblemSpaceMessage(State.ERROR, "Problem space has not been initialized");
+		}
+		Boolean result = problemSpace.develop(iDs);
+		if (result == null) {
+			return new ProblemSpaceMessage(State.ERROR, "No representation has been found.");
+		} else if (!result) {
+			return new ProblemSpaceMessage(State.WARNING, "The specified representations are fully developed already. ");
+		}
+		generateFigures();
+
+		return new ProblemSpaceMessage(State.OK, "Representations have been developed");
+	}	
+	
+	public ProblemSpaceMessage restrictToRepresentations(List<Integer> iDs) {
+		if (problemSpace == null) {
+			return new ProblemSpaceMessage(State.ERROR, "Problem space has not been initialized");
+		}
+		Boolean result = problemSpace.restrictTo(new HashSet<>(iDs));
+		if (result == null) {
+			return new ProblemSpaceMessage(State.ERROR, "No representation has been found.");
+		} else if (!result) {
+			return new ProblemSpaceMessage(State.WARNING, "The problem space has not been modified. ");
+		}
+		generateFigures();
+
+		return new ProblemSpaceMessage(State.OK, "The problem space has been restricted.");
+	}
+	
+	public ProblemSpaceMessage fullyExpandProblemSpace() {
+		if (problemSpace == null) {
+			return new ProblemSpaceMessage(State.ERROR, "Problem space has not been initialized");
+		}
+		Boolean result = problemSpace.develop();
+		if (result == null) {
+			return new ProblemSpaceMessage(State.ERROR, "The problem space cannot be fully developed.");
+		}
+		generateFigures();
+
+		return new ProblemSpaceMessage(State.OK, "The problem space has been fully developed.");
 	}
 
 	private void generateFigures() {

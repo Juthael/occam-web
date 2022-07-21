@@ -43,18 +43,44 @@ public class ProblemSpaceController {
 
 	@PostMapping("process/action")
 	public String action(@ModelAttribute("state") final ProblemState state, final Model model,
-			@RequestParam("submit") final String action, @RequestParam("representation") final String repId) {
+			@RequestParam("submit") final String action, @RequestParam("representationIDs") final String repIDs, 
+			@RequestParam("representation") final String repID) {
 		ProblemSpaceWorker worker = this.problems.getOrCreateWorker(state.getId());
 		IProblemSpace problemSpace = worker.getProblemSpace();
 		if (problemSpace != null) {
 			try {
-				if (action.equals("display")) {
-					worker.displayRepresentation(Integer.parseInt(repId));
-				} else if (action.equals("deepen")) {
-					worker.deepenRepresentation(Integer.parseInt(repId));
+				if (action.equals("develop") || action.equals("restrict")) {
+					List<Integer> iDs = new ArrayList<>();
+					String iDString = repIDs.replaceAll(" ", "");
+					String[] idStringArray = iDString.split(",");
+					for (String iDStr : idStringArray) {
+						Integer nextID = null;
+						try {
+							nextID = Integer.parseInt(iDStr);
+						}
+						catch (NumberFormatException e) {
+							//do nothing
+						}
+						if (nextID != null)
+							iDs.add(nextID);
+					}
+					if (!iDs.isEmpty()) {
+						if (action.equals("develop"))
+							worker.developRepresentations(iDs);
+						else worker.restrictToRepresentations(iDs);
+					}
+				}
+				else if (action.equals("fully-expand")) {
+					worker.fullyExpandProblemSpace();
+				}
+				else if (action.equals("display-lattice") || action.equals("hide-lattice")) {
+					
+				}
+				else if (action.equals("display-representation")) {
+					worker.displayRepresentation(Integer.parseInt(repID));
 				}
 			} catch (Exception e) {
-				LOGGER.error("Unable to proceed action {} on representation {}",action,repId,e);
+				LOGGER.error("Unable to proceed action {} on representation {}",action,repIDs,e);
 			}
 
 		}
