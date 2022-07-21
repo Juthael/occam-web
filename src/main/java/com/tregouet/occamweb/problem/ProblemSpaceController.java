@@ -77,6 +77,7 @@ public class ProblemSpaceController {
 					
 				}
 				else if (action.equals("display-representation")) {
+					//HERE
 					worker.displayRepresentation(Integer.parseInt(repID));
 				}
 			} catch (Exception e) {

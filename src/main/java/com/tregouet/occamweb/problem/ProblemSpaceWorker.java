@@ -80,8 +80,7 @@ public class ProblemSpaceWorker {
 		} else if (!result) {
 			return new ProblemSpaceMessage(State.WARNING, "This representation is already displayed.");
 		}
-		generateFigures();
-
+		generateRepresentationFigures();
 		return new ProblemSpaceMessage(State.OK, "Representation has been displayed");
 
 	}
@@ -96,8 +95,7 @@ public class ProblemSpaceWorker {
 		} else if (!result) {
 			return new ProblemSpaceMessage(State.WARNING, "This representation is fully developed already. ");
 		}
-		generateFigures();
-
+		generateProblemSpaceFigure();
 		return new ProblemSpaceMessage(State.OK, "Representation has been developed");
 	}
 	
@@ -111,8 +109,7 @@ public class ProblemSpaceWorker {
 		} else if (!result) {
 			return new ProblemSpaceMessage(State.WARNING, "The specified representations are fully developed already. ");
 		}
-		generateFigures();
-
+		generateProblemSpaceFigure();
 		return new ProblemSpaceMessage(State.OK, "Representations have been developed");
 	}	
 	
@@ -126,8 +123,7 @@ public class ProblemSpaceWorker {
 		} else if (!result) {
 			return new ProblemSpaceMessage(State.WARNING, "The problem space has not been modified. ");
 		}
-		generateFigures();
-
+		generateProblemSpaceFigure();
 		return new ProblemSpaceMessage(State.OK, "The problem space has been restricted.");
 	}
 	
@@ -139,15 +135,24 @@ public class ProblemSpaceWorker {
 		if (result == null) {
 			return new ProblemSpaceMessage(State.ERROR, "The problem space cannot be fully developed.");
 		}
-		generateFigures();
-
+		generateProblemSpaceFigure();
 		return new ProblemSpaceMessage(State.OK, "The problem space has been fully developed.");
 	}
-
+	
 	private void generateFigures() {
+		new BasicConceptGraphViz(directory).apply(problemSpace.getLatticeOfConcepts(), "concept_lattice");
+		generateProblemSpaceFigure();
+		generateRepresentationFigures();
+	}	
+
+	private void generateProblemSpaceFigure() {
 		if (problemSpace != null) {
 			new BasicProblemSpaceViz(directory).apply(problemSpace.getProblemSpaceGraph(), "problem_space");
-			new BasicConceptGraphViz(directory).apply(problemSpace.getLatticeOfConcepts(), "concept_lattice");
+		}
+	}
+	
+	private void generateRepresentationFigures() {
+		if (problemSpace != null) {
 			IRepresentation activeRepresentation = problemSpace.getActiveRepresentation();
 			if (activeRepresentation != null) {
 				new BasicDescriptionViz(directory).apply(activeRepresentation.getDescription(), "description");
