@@ -6,11 +6,13 @@
 		    <table class="matrix table table-striped">
 		    	<thead>
 		    		<tr>
+		    			<th></th>
 						<th th:each="header : ${m.headers}" th:text="${header}">name</th>
 					</tr>
 		    	</thead>
 		    	<tbody>
 		    		<tr th:each="row : ${m.rows}">
+		    			<th th:text = "${row.iD}"> name </th>
 		    			<td th:each="c : ${row.columns}" th:text="${c}">value</td>
 		    		</tr>
 		    	</tbody>

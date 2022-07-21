@@ -8,11 +8,20 @@ public class Matrix {
 	private List<Row> rows= new ArrayList<>();
 	
 	public static class Row {
+		private String iD;
 		private List<String> columns = new ArrayList<>();
+		
+		public Row(String iD) {
+			this.iD = iD;
+		}
 		
 		
 		public List<String> getColumns() {
 			return columns;
+		}
+		
+		public String getID() {
+			return iD;
 		}
 	}
 
@@ -28,7 +37,7 @@ public class Matrix {
 
 	private void fill(double[][] values) {
 		for (int i = 0; i < values.length; i++) {
-			Row row = new Row();
+			Row row = new Row(headers.get(i));
 			for (int j = 0; j < values[i].length; j++) {
 				row.columns.add(String.valueOf(values[i][j]));
 			}
@@ -38,7 +47,7 @@ public class Matrix {
 	
 	private void fill(String[][] values) {
 		for (int i = 0 ; i < values.length ; i++) {
-			Row row = new Row();
+			Row row = new Row(headers.get(i));
 			for (int j = 0 ; j < values[i].length ; j++) {
 				row.columns.add(values[i][j]);
 			}
