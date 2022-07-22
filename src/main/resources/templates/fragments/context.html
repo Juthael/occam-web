@@ -4,31 +4,30 @@
 
 <body>
     <context>
-    <div class="process-block ">
-		<h2> CONTEXT </h2>
-		<div class="process-block-content">
-			<table class="table table-sm">
-				<caption th:if="${context?.caption}" th:text="${context.caption}"></caption>
-				<thead class="thead-light">
-					<tr>
-						<th th:each="header : ${context.headers}" th:text="${header.title}"></th>
-					</tr>
-					<tr th:if="${context.hasSubtitle()}" >
-						<td  th:each="header : ${context.headers}" th:text="${header.subtitle}"></td>
-					</tr>
-				</thead>
-				<tbody>
-					
-					<tr>
-						<td th:each="constructs : ${context.constructs}">
-							<div th:each="cv : ${constructs.values}" th:text="${cv}"></div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+	    <div class="process-block ">
+			<h2> CONTEXT </h2>
+			<div class="process-block-content">
+				<div th:each="row : ${context.rows}">
+					<table class="table table-sm">
+						<thead class="thead-light">
+							<tr>
+								<th th:each="constructs : ${row.list}" th:text="${constructs.title}"> title </th>
+							</tr>
+							<tr th:if="${context.hasSubtitle()}">
+								<td th:each="constructs : ${row.list}" th:text="${constructs.subtitle}"> subtitle </td>
+							</tr>
+						</thead>
+						<tbody class="obj-constructs">
+							<tr>
+								<td th:each="constructs : ${row.list}">
+									<div th:each="cv : ${constructs.values}" th:text="${cv}"></div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
-	</div>
-	
     </context>
 </body>
 

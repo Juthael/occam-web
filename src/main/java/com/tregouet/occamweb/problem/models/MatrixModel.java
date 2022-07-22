@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MatrixModel {
+	
 	private List<String> headers;
 	private List<Row> rows= new ArrayList<>();
 	private MathContext mathContext = new MathContext(3);
@@ -57,13 +58,6 @@ public class MatrixModel {
 			}
 			rows.add(row);
 		}
-	}
-	
-	public MatrixModel(List<String>headers,double[] values) {
-		this(headers);
-		double[][] m= new double[1][values.length];
-		m[0]=values;
-		fill(m);
 	}
 	
 	

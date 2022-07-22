@@ -11,7 +11,7 @@ public class ProblemSpaceModel {
 	private MatrixModel similarity;
 	private MatrixModel similarityRef;
 	private MatrixModel asymmetricalSimilarity;
-	private MatrixModel typicality;
+	private VectorModel typicality;
 	private MatrixModel difference;
 	
 	public ProblemSpaceModel(IProblemSpace problemSpace) {
@@ -23,7 +23,7 @@ public class ProblemSpaceModel {
 		similarity = new MatrixModel(smh, problemSpace.getSimilarityMatrix());
 		similarityRef = new MatrixModel(smh, problemSpace.getReferenceMatrix());
 		asymmetricalSimilarity = new MatrixModel(smh, problemSpace.getAsymmetricalSimilarityMatrix());
-		typicality = new MatrixModel(smh, problemSpace.getTypicalityVector());
+		typicality = new VectorModel(smh, problemSpace.getTypicalityVector());
 		difference = new MatrixModel(smh, problemSpace.getDifferenceMatrix());
 	}
 	
@@ -39,7 +39,7 @@ public class ProblemSpaceModel {
 		return asymmetricalSimilarity;
 	}
 	
-	public MatrixModel getTypicality() {
+	public VectorModel getTypicality() {
 		return typicality;
 	}
 	

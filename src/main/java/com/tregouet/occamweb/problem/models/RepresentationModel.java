@@ -16,8 +16,6 @@ public class RepresentationModel {
 	
 	public static class Similarity {
 		private MatrixModel similarityMatrix;
-		private MatrixModel asymetricalSimilarityMatrix;
-		private MatrixModel typicalityVector;
 
 		public Similarity(IProblemSpace space, IRepresentation representation) {
 			super();
@@ -25,49 +23,31 @@ public class RepresentationModel {
 			for (IContextObject obj : space.getContext()) {
 				smh.add(Integer.toString(obj.iD()));
 			}
-
 			similarityMatrix = new MatrixModel(smh,
 					representation.getDescription().getSimilarityMetrics().getSimilarityMatrix());
-			asymetricalSimilarityMatrix = new MatrixModel(smh,
-					representation.getDescription().getSimilarityMetrics().getAsymmetricalSimilarityMatrix());
-			typicalityVector = new MatrixModel(smh,
-					representation.getDescription().getSimilarityMetrics().getTypicalityVector());
 
-		}
-
-		public MatrixModel getAsymetricalSimilarityMatrix() {
-			return asymetricalSimilarityMatrix;
 		}
 
 		public MatrixModel getSimilarityMatrix() {
 			return similarityMatrix;
 		}
 
-		public MatrixModel getTypicalityVector() {
-			return typicalityVector;
-		}
-
 	}
 	
 	public static class Facts{
-		private List<String> headers=new ArrayList<>();
+		
 		private List<Fact> facts = new ArrayList<>();
 		
 		public Facts(IProblemSpace space, IRepresentation representation) {
-			
 			Map<Integer, List<String>> objID2acceptedFacts = 
 					representation.mapParticularIDsToFactualDescription(FormattersAbstractFactory.INSTANCE.getFactDisplayer());
 			NavigableSet<Integer> objIDs = new TreeSet<>(objID2acceptedFacts.keySet());
-	
-		
 			for (Integer iD : objIDs) {
-				headers.add(setHeadOfAcceptedFactsArray(representation, iD));
-				Fact fact = new Fact();
-	
+				String header = setHeadOfAcceptedFactsArray(representation, iD);
+				Fact fact = new Fact(header);
 				for (String factString : objID2acceptedFacts.get(iD))
 					fact.values.add(factString);
 				facts.add(fact);
-		
 			}
 		}
 		
@@ -92,23 +72,29 @@ public class RepresentationModel {
 				}
 			}
 		}
-
-		
+	
 		public List<Fact> getFacts() {
 			return facts;
 		}
-		public List<String> getHeaders() {
-			return headers;
-		}
+
 	}
 	
 	public static class Fact  {
+		
+		private String header;
 		private List<String> values = new ArrayList<>();
+		
+		public Fact(String header) {
+			this.header = header;
+		}
 		
 		public List<String> getValues() {
 			return values;
 		}
 		
+		public String getHeader() {
+			return header;
+		}
 		
 	}
 

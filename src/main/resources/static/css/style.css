@@ -115,6 +115,7 @@ padding-top:30px;
 	flex-flow: row wrap;
 
 }
+
 .example {
 	position: relative;
 	background: #625d52;
@@ -146,6 +147,11 @@ padding-top:30px;
 	font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New;
 	font-size:12px;
 	border: 0px;
+}
+
+.obj-constructs{
+	font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New;
+	font-size:12px;
 }
 
 .small-button {

@@ -1,0 +1,20 @@
+<div th:fragment="vector (v)" class="artifact">
+	<div class="row">
+
+		
+		    <table class="matrix table table-striped table-sm">
+		    	<thead>
+		    		<tr>
+						<th th:each="header : ${v.headers}" th:text="${header}">name</th>
+					</tr>
+		    	</thead>
+		    	<tbody>
+		    		<tr>
+		    			<td th:each="v : ${v.values}" th:text="${v}">value</td>
+		    		</tr>
+		    	</tbody>
+		    </table>
+	  
+	
+    </div>
+</div>
