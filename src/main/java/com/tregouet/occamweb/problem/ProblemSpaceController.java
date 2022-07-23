@@ -110,6 +110,11 @@ public class ProblemSpaceController {
 		}
 		return null;
 	}
+	
+	@GetMapping("")
+	public String toIndex() {
+		return "redirect:/index.html";
+	}
 
 	@GetMapping("index.html")
 	public String index(final Model model) {
