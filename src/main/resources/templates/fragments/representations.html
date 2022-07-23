@@ -25,35 +25,17 @@
 						<img  class="img-fluid center"  src="/figures/trans_func.png"></img>
 					</div>
 					
-					<h3> ACCEPTED FACTS </h3>
-			
-						<!-- HERE  
-						    <table class="table">
-						    	<thead>
-						    		<tr>
-										<th th:each="header : ${representation.acceptedFacts.headers}" th:text="${header}">name</th>
-									</tr>
-						    	</thead>
-						    	<tbody>
-						    		<tr >
-						    			<td th:each="fact : ${representation.acceptedFacts.facts}">
-						    				<div  th:each="fv : ${fact.values}" th:text="${fv}">
-						    				</div>
-						    			</td>
-						    		</tr>
-						    	</tbody>
-						    </table>
-						-->    
-						    <table class ="table">
-							    <tbody>
-							    	<tr th:each="fact : ${representation.acceptedFacts.facts}">
-							    		<th th:text="${fact.header}"></th>
-							    		<td>
-							    			<div th:each="fv : ${fact.values}" th:text="${fv}"></div>
-							    		</td>
-							    	</tr>
-							    </tbody>
-						    </table>
+					<h3> ACCEPTED FACTS </h3>  
+					    <table class ="table">
+						    <tbody>
+						    	<tr th:each="fact : ${representation.acceptedFacts.facts}">
+						    		<th th:text="${fact.header}"></th>
+						    		<td>
+						    			<div th:each="fv : ${fact.values}" th:text="${fv}"></div>
+						    		</td>
+						    	</tr>
+						    </tbody>
+					    </table>
 					   
 					<h3> CLASSIFICATION TREE </h3>
 					<div>
