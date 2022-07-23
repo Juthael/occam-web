@@ -14,18 +14,18 @@
 					<div class="row">
 						<div class="col">
 							<script>
-							$(document).ready(function(){
-							  $("#example-file").click(function(){
-								var myFile = $('#example-file').prop('files');
-								$('#example-file').change(function(e){
-								        var fileName = e.target.files[0].name;
-								        var tmppath = URL.createObjectURL(e.target.files[0]);
-								        $("#textarea-example").load(tmppath);
+								$(document).ready(function(){
+								  $("#example-file").click(function(){
+									// var myFile = $('#example-file').prop('files'); USELESS ?
+									$('#example-file').change(function(e){
+									        var fileName = e.target.files[0].name;
+									        var tmppath = URL.createObjectURL(e.target.files[0]);
+									        $("#textarea-example").load(tmppath);
+									});
+									
+								   
+								  });
 								});
-								
-							   
-							  });
-							});
 							</script>
 							<label for="example-file" class="small-button btn btn-outline-secondary d-inline-flex justify-content-center align-content-between">
 							     Open File
@@ -34,18 +34,18 @@
 				
 						</div>
 						<div class="col">
-							Examples:
+							Examples: 
 							<script th:inline="javascript" th:each="example : ${examples}">
-							$(document).ready(function(){
-							  $("#example-[[${example.position}]]").click(function(){
-							
-				
-							  	$.get('api/examples/[(${example.name})]',function( data ) {
-							  		 $("#textarea-example").val(data);
-							  	});
-							   
-							  });
-							});
+								$(document).ready(function(){
+								  $("#example-[[${example.position}]]").click(function(){
+								
+					
+								  	$.get('api/examples/[(${example.name})]',function( data ) {
+								  		 $("#textarea-example").val(data);
+								  	});
+								   
+								  });
+								});
 							</script>
 							<ul class="examples">
 								<li class="example" 
@@ -88,9 +88,7 @@ shape/filling/green
 shape/type/circle
 shape/size/small
 shape/line/red
-shape/filling/yellow
-						
-							</textarea>
+shape/filling/yellow	</textarea>
 						</div>
 					</div>
 				</div>
@@ -104,6 +102,8 @@ shape/filling/yellow
 								<span class="material-icons icon-padding">account_tree</span> Process
 							</button>
 						</div>
+						
+				</div>
 			
 
 			</div>

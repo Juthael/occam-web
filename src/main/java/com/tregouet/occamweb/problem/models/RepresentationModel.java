@@ -1,4 +1,4 @@
-package com.tregouet.occamweb.problem.model;
+package com.tregouet.occamweb.problem.models;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,11 +12,10 @@ import com.tregouet.occam.data.problem_space.IProblemSpace;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
 
-public class Representation {
+public class RepresentationModel {
+	
 	public static class Similarity {
-		private Matrix similarityMatrix;
-		private Matrix asymetricalSimilarityMatrix;
-		private Matrix typicalityVector;
+		private MatrixModel similarityMatrix;
 
 		public Similarity(IProblemSpace space, IRepresentation representation) {
 			super();
@@ -24,49 +23,31 @@ public class Representation {
 			for (IContextObject obj : space.getContext()) {
 				smh.add(Integer.toString(obj.iD()));
 			}
-
-			similarityMatrix = new Matrix(smh,
+			similarityMatrix = new MatrixModel(smh,
 					representation.getDescription().getSimilarityMetrics().getSimilarityMatrix());
-			asymetricalSimilarityMatrix = new Matrix(smh,
-					representation.getDescription().getSimilarityMetrics().getAsymmetricalSimilarityMatrix());
-			typicalityVector = new Matrix(smh,
-					representation.getDescription().getSimilarityMetrics().getTypicalityVector());
 
 		}
 
-		public Matrix getAsymetricalSimilarityMatrix() {
-			return asymetricalSimilarityMatrix;
-		}
-
-		public Matrix getSimilarityMatrix() {
+		public MatrixModel getSimilarityMatrix() {
 			return similarityMatrix;
-		}
-
-		public Matrix getTypicalityVector() {
-			return typicalityVector;
 		}
 
 	}
 	
 	public static class Facts{
-		private List<String> headers=new ArrayList<>();
+		
 		private List<Fact> facts = new ArrayList<>();
 		
 		public Facts(IProblemSpace space, IRepresentation representation) {
-			
 			Map<Integer, List<String>> objID2acceptedFacts = 
 					representation.mapParticularIDsToFactualDescription(FormattersAbstractFactory.INSTANCE.getFactDisplayer());
 			NavigableSet<Integer> objIDs = new TreeSet<>(objID2acceptedFacts.keySet());
-	
-		
 			for (Integer iD : objIDs) {
-				headers.add(setHeadOfAcceptedFactsArray(representation, iD));
-				Fact fact = new Fact();
-	
+				String header = setHeadOfAcceptedFactsArray(representation, iD);
+				Fact fact = new Fact(header);
 				for (String factString : objID2acceptedFacts.get(iD))
 					fact.values.add(factString);
 				facts.add(fact);
-		
 			}
 		}
 		
@@ -91,23 +72,29 @@ public class Representation {
 				}
 			}
 		}
-
-		
+	
 		public List<Fact> getFacts() {
 			return facts;
 		}
-		public List<String> getHeaders() {
-			return headers;
-		}
+
 	}
 	
 	public static class Fact  {
+		
+		private String header;
 		private List<String> values = new ArrayList<>();
+		
+		public Fact(String header) {
+			this.header = header;
+		}
 		
 		public List<String> getValues() {
 			return values;
 		}
 		
+		public String getHeader() {
+			return header;
+		}
 		
 	}
 
@@ -115,7 +102,7 @@ public class Representation {
 	private Similarity similarity;
 	private Facts acceptedFacts;
 
-	public Representation(IProblemSpace space) {
+	public RepresentationModel(IProblemSpace space) {
 		super();
 		IRepresentation active = space.getActiveRepresentation();
 		if (active != null) {

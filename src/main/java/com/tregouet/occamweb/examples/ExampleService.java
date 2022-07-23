@@ -50,7 +50,7 @@ public class ExampleService {
 				return Optional.of(content);
 			}
 		} catch (IOException e) {
-		
+
 		}
 		
 		return Optional.empty();

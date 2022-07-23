@@ -80,13 +80,12 @@ public class ProblemSpaceWorker {
 		} else if (!result) {
 			return new ProblemSpaceMessage(State.WARNING, "This representation is already displayed.");
 		}
-		generateFigures();
-
+		generateRepresentationFigures();
 		return new ProblemSpaceMessage(State.OK, "Representation has been displayed");
 
 	}
 
-	public ProblemSpaceMessage deepenRepresentation(int id) {
+	public ProblemSpaceMessage developRepresentation(int id) {
 		if (problemSpace == null) {
 			return new ProblemSpaceMessage(State.ERROR, "Problem space has not been initialized");
 		}
@@ -96,15 +95,64 @@ public class ProblemSpaceWorker {
 		} else if (!result) {
 			return new ProblemSpaceMessage(State.WARNING, "This representation is fully developed already. ");
 		}
-		generateFigures();
-
+		generateProblemSpaceFigure();
 		return new ProblemSpaceMessage(State.OK, "Representation has been developed");
 	}
-
+	
+	public ProblemSpaceMessage developRepresentations(List<Integer> iDs) {
+		if (problemSpace == null) {
+			return new ProblemSpaceMessage(State.ERROR, "Problem space has not been initialized");
+		}
+		Boolean result = problemSpace.develop(iDs);
+		if (result == null) {
+			return new ProblemSpaceMessage(State.ERROR, "No representation has been found.");
+		} else if (!result) {
+			return new ProblemSpaceMessage(State.WARNING, "The specified representations are fully developed already. ");
+		}
+		generateProblemSpaceFigure();
+		return new ProblemSpaceMessage(State.OK, "Representations have been developed");
+	}	
+	
+	public ProblemSpaceMessage restrictToRepresentations(List<Integer> iDs) {
+		if (problemSpace == null) {
+			return new ProblemSpaceMessage(State.ERROR, "Problem space has not been initialized");
+		}
+		Boolean result = problemSpace.restrictTo(new HashSet<>(iDs));
+		if (result == null) {
+			return new ProblemSpaceMessage(State.ERROR, "No representation has been found.");
+		} else if (!result) {
+			return new ProblemSpaceMessage(State.WARNING, "The problem space has not been modified. ");
+		}
+		generateProblemSpaceFigure();
+		return new ProblemSpaceMessage(State.OK, "The problem space has been restricted.");
+	}
+	
+	public ProblemSpaceMessage fullyExpandProblemSpace() {
+		if (problemSpace == null) {
+			return new ProblemSpaceMessage(State.ERROR, "Problem space has not been initialized");
+		}
+		Boolean result = problemSpace.develop();
+		if (result == null) {
+			return new ProblemSpaceMessage(State.ERROR, "The problem space cannot be fully developed.");
+		}
+		generateProblemSpaceFigure();
+		return new ProblemSpaceMessage(State.OK, "The problem space has been fully developed.");
+	}
+	
 	private void generateFigures() {
+		new BasicConceptGraphViz(directory).apply(problemSpace.getLatticeOfConcepts(), "concept_lattice");
+		generateProblemSpaceFigure();
+		generateRepresentationFigures();
+	}	
+
+	private void generateProblemSpaceFigure() {
 		if (problemSpace != null) {
 			new BasicProblemSpaceViz(directory).apply(problemSpace.getProblemSpaceGraph(), "problem_space");
-			new BasicConceptGraphViz(directory).apply(problemSpace.getLatticeOfConcepts(), "concept_lattice");
+		}
+	}
+	
+	private void generateRepresentationFigures() {
+		if (problemSpace != null) {
 			IRepresentation activeRepresentation = problemSpace.getActiveRepresentation();
 			if (activeRepresentation != null) {
 				new BasicDescriptionViz(directory).apply(activeRepresentation.getDescription(), "description");

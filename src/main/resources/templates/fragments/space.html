@@ -5,16 +5,58 @@
 <body>
     <space>
    		 <div  class="process-block ">
-	    	<h2> PROBLEM SPACE </h2>
-	    	<div>
-				<h3> Problem space graph </h3>
-					<a href="/figures/problem_space.png" target="_blank" >
+		    <h2> PROBLEM SPACE </h2>
+		    <div>
+		    	<h3> PROBLEM SPACE GRAPH</h3>
+		    	<div>
+			    	<a href="/figures/problem_space.png" target="_blank" >
 						<img  class="img-fluid center"  src="/figures/problem_space.png"></img>
 					</a>
-				<h3> Concept lattice </h3>
-					<a href="/figures/concept_lattice.png" target="_blank" >
-						<img  class="img-fluid"   src="/figures/concept_lattice.png"></img>
-					</a>
+		    	</div>				
+			</div>
+			<div>
+				<h3> SIMILARITY METRICS </h3>
+				<div>
+					<h4> Similarity </h4>
+					<div>
+						<div th:replace="fragments/matrix.html:: matrix(m=${space.similarity})"> 
+							similarity matrix 
+						</div>
+					</div>
+				</div>
+				<div>
+					<h4> Similarity references </h4>
+					<div>
+						<div th:replace="fragments/matrix.html:: matrix(m=${space.similarityRef})"> 
+							similarity matrix references
+						</div>
+					</div>
+				</div>
+				<div>
+					<h4> Asymmetrical similarity </h4>
+					<div>
+						<div th:replace="fragments/matrix.html:: matrix(m=${space.asymmetricalSimilarity})"> 
+							asymmetrical similarity matrix 
+						</div>
+					</div>
+				</div>
+				<div>
+					<h4> Typicality </h4>
+					<div>
+						<div th:replace="fragments/vector.html:: vector(v=${space.typicality})"> 
+							typicality vector
+						</div>
+					</div>
+				</div>
+				<div>
+					<h4> Difference </h4>
+					<div>
+						<div th:replace="fragments/matrix.html:: matrix(m=${space.difference})"> 
+							similarity matrix 
+						</div>
+					</div>
+				</div>																
+				
 			</div>
 		</div>
     </space>
