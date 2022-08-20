@@ -20,7 +20,7 @@ public class ExamplesController {
 	public List<String> examples() {
 		return examples.getExamples();
 	}
-	
+
 
 	@GetMapping(value="/api/examples/{name}",produces = MediaType.TEXT_PLAIN_VALUE)
 	public ResponseEntity<String> getExampleContent(@PathVariable("name") String name){

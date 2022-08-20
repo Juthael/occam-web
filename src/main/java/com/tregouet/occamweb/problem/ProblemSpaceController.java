@@ -44,7 +44,7 @@ public class ProblemSpaceController {
 
 	@PostMapping("process/action")
 	public String action(@ModelAttribute("state") final ProblemState state, final Model model,
-			@RequestParam("submit") final String action, @RequestParam("representationIDs") final String repIDs, 
+			@RequestParam("submit") final String action, @RequestParam("representationIDs") final String repIDs,
 			@RequestParam("representation") final String repID) {
 		ProblemSpaceWorker worker = this.problems.getOrCreateWorker(state.getId());
 		IProblemSpace problemSpace = worker.getProblemSpace();
@@ -97,20 +97,20 @@ public class ProblemSpaceController {
 
 	@RequestMapping(value = "/figures/{file_name}", method = RequestMethod.GET,produces =  MediaType.IMAGE_PNG_VALUE)
 	@ResponseBody
-	public FileSystemResource getFigureImage(@ModelAttribute("state") final ProblemState state, 
+	public FileSystemResource getFigureImage(@ModelAttribute("state") final ProblemState state,
 			@PathVariable("file_name") final String fileName) {
 		ProblemSpaceWorker worker = this.problems.getOrCreateWorker(state.getId());
 		IProblemSpace problemSpace = worker.getProblemSpace();
 		if (problemSpace != null) {
 			Optional<Path> resource = worker.getResource(fileName);
 			if(resource.isPresent()) {
-				return new FileSystemResource(resource.get()); 
+				return new FileSystemResource(resource.get());
 			}
 
 		}
 		return null;
 	}
-	
+
 	@GetMapping("")
 	public String toIndex() {
 		return "redirect:/index.html";

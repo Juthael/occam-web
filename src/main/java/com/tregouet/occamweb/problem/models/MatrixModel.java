@@ -6,24 +6,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MatrixModel {
-	
+
 	private List<String> headers;
 	private List<Row> rows= new ArrayList<>();
 	private MathContext mathContext = new MathContext(3);
-	
+
 	public static class Row {
 		private String iD;
 		private List<String> columns = new ArrayList<>();
-		
+
 		public Row(String iD) {
 			this.iD = iD;
 		}
-		
-		
+
+
 		public List<String> getColumns() {
 			return columns;
 		}
-		
+
 		public String getID() {
 			return iD;
 		}
@@ -33,7 +33,7 @@ public class MatrixModel {
 		this(headers);
 		fill(values);
 	}
-	
+
 	public MatrixModel(List<String>headers, String[][] values) {
 		this(headers);
 		fill(values);
@@ -49,7 +49,7 @@ public class MatrixModel {
 			rows.add(row);
 		}
 	}
-	
+
 	private void fill(String[][] values) {
 		for (int i = 0 ; i < values.length ; i++) {
 			Row row = new Row(headers.get(i));
@@ -59,8 +59,8 @@ public class MatrixModel {
 			rows.add(row);
 		}
 	}
-	
-	
+
+
 	public MatrixModel(List<String> headers) {
 		this.headers = headers;
 	}
@@ -68,9 +68,9 @@ public class MatrixModel {
 	public List<String> getHeaders() {
 		return headers;
 	}
-	
+
 	public List<Row> getRows() {
 		return rows;
 	}
-	
+
 }

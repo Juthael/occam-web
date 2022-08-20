@@ -20,11 +20,11 @@ import com.google.common.collect.ImmutableList;
 @Service
 public class ExampleService {
 	private final static Logger LOGGER = LoggerFactory.getLogger(ExampleService.class);
-	
+
 	private Path directory = Paths.get("examples");
-	
-	
-	
+
+
+
 	public List<String> getExamples(){
 		List<String> examples = new ArrayList<>();
 		try {
@@ -35,27 +35,27 @@ public class ExampleService {
 		} catch (IOException e) {
 			LOGGER.error("Unable to load examples",e);
 		}
-		
+
 		return ImmutableList.of();
-		
+
 	}
-	
-	
+
+
 	public Optional<String> getExample(String name){
 		try {
 			Path realPath = directory.resolve(name).toRealPath();
 			if(realPath.startsWith(directory.toAbsolutePath()) && Files.exists(realPath)) {
 				String content = Files.readString(realPath,Charsets.UTF_8);
-			
+
 				return Optional.of(content);
 			}
 		} catch (IOException e) {
 
 		}
-		
+
 		return Optional.empty();
 	}
-	
+
 	private List<Path> listFiles(Path dir, int depth) throws IOException {
 	    try (Stream<Path> stream = Files.walk(dir, depth)) {
 	        return stream

@@ -13,7 +13,7 @@ import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
 
 public class RepresentationModel {
-	
+
 	public static class Similarity {
 		private MatrixModel similarityMatrix;
 
@@ -33,13 +33,13 @@ public class RepresentationModel {
 		}
 
 	}
-	
+
 	public static class Facts{
-		
+
 		private List<Fact> facts = new ArrayList<>();
-		
+
 		public Facts(IProblemSpace space, IRepresentation representation) {
-			Map<Integer, List<String>> objID2acceptedFacts = 
+			Map<Integer, List<String>> objID2acceptedFacts =
 					representation.mapParticularIDsToFactualDescription(FormattersAbstractFactory.INSTANCE.getFactDisplayer());
 			NavigableSet<Integer> objIDs = new TreeSet<>(objID2acceptedFacts.keySet());
 			for (Integer iD : objIDs) {
@@ -50,7 +50,7 @@ public class RepresentationModel {
 				facts.add(fact);
 			}
 		}
-		
+
 		private static String setHeadOfAcceptedFactsArray(IRepresentation representation, Integer conceptID) {
 			if (representation.isFullyDeveloped())
 				return conceptID.toString();
@@ -72,30 +72,30 @@ public class RepresentationModel {
 				}
 			}
 		}
-	
+
 		public List<Fact> getFacts() {
 			return facts;
 		}
 
 	}
-	
+
 	public static class Fact  {
-		
+
 		private String header;
 		private List<String> values = new ArrayList<>();
-		
+
 		public Fact(String header) {
 			this.header = header;
 		}
-		
+
 		public List<String> getValues() {
 			return values;
 		}
-		
+
 		public String getHeader() {
 			return header;
 		}
-		
+
 	}
 
 	private Integer id;
@@ -111,11 +111,11 @@ public class RepresentationModel {
 			id = active.iD();
 		}
 	}
-	
+
 	public Facts getAcceptedFacts() {
 		return acceptedFacts;
 	}
-	
+
 	public Similarity getSimilarity() {
 		return similarity;
 	}

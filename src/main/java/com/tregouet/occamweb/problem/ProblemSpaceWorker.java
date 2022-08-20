@@ -39,12 +39,12 @@ public class ProblemSpaceWorker {
 		Files.createDirectories(directory);
 		Files.writeString(getProblemFile(), input);
 		try (BufferedReader reader = new BufferedReader(new StringReader(input))) {
-			
+
 			//XXX:this should not be necessary, risk of race condition
 			IContextObject.initializeIDGenerator();
 			IConcept.initializeIDGenerator();
 			IRepresentation.initializeIDGenerator();
-			
+
 			List<IContextObject> objects = GenericFileReader.getContextObjects(reader);
 			this.problemSpace = new ProblemSpace(new HashSet<>(objects));
 			generateFigures();
@@ -98,7 +98,7 @@ public class ProblemSpaceWorker {
 		generateProblemSpaceFigure();
 		return new ProblemSpaceMessage(State.OK, "Representation has been developed");
 	}
-	
+
 	public ProblemSpaceMessage developRepresentations(List<Integer> iDs) {
 		if (problemSpace == null) {
 			return new ProblemSpaceMessage(State.ERROR, "Problem space has not been initialized");
@@ -111,8 +111,8 @@ public class ProblemSpaceWorker {
 		}
 		generateProblemSpaceFigure();
 		return new ProblemSpaceMessage(State.OK, "Representations have been developed");
-	}	
-	
+	}
+
 	public ProblemSpaceMessage restrictToRepresentations(List<Integer> iDs) {
 		if (problemSpace == null) {
 			return new ProblemSpaceMessage(State.ERROR, "Problem space has not been initialized");
@@ -126,7 +126,7 @@ public class ProblemSpaceWorker {
 		generateProblemSpaceFigure();
 		return new ProblemSpaceMessage(State.OK, "The problem space has been restricted.");
 	}
-	
+
 	public ProblemSpaceMessage fullyExpandProblemSpace() {
 		if (problemSpace == null) {
 			return new ProblemSpaceMessage(State.ERROR, "Problem space has not been initialized");
@@ -138,19 +138,19 @@ public class ProblemSpaceWorker {
 		generateProblemSpaceFigure();
 		return new ProblemSpaceMessage(State.OK, "The problem space has been fully developed.");
 	}
-	
+
 	private void generateFigures() {
 		new BasicConceptGraphViz(directory).apply(problemSpace.getLatticeOfConcepts(), "concept_lattice");
 		generateProblemSpaceFigure();
 		generateRepresentationFigures();
-	}	
+	}
 
 	private void generateProblemSpaceFigure() {
 		if (problemSpace != null) {
 			new BasicProblemSpaceViz(directory).apply(problemSpace.getProblemSpaceGraph(), "problem_space");
 		}
 	}
-	
+
 	private void generateRepresentationFigures() {
 		if (problemSpace != null) {
 			IRepresentation activeRepresentation = problemSpace.getActiveRepresentation();
