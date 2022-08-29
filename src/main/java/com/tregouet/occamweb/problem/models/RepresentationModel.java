@@ -8,37 +8,16 @@ import java.util.NavigableSet;
 import java.util.TreeSet;
 
 import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
-import com.tregouet.occam.data.problem_space.IProblemSpace;
-import com.tregouet.occam.data.problem_space.states.IRepresentation;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
+import com.tregouet.occam.data.modules.sorting.ISorter;
+import com.tregouet.occam.data.structures.representations.IRepresentation;
 
 public class RepresentationModel {
-	
-	public static class Similarity {
-		private MatrixModel similarityMatrix;
-
-		public Similarity(IProblemSpace space, IRepresentation representation) {
-			super();
-			List<String> smh = new ArrayList<>();
-			for (IContextObject obj : space.getContext()) {
-				smh.add(Integer.toString(obj.iD()));
-			}
-			similarityMatrix = new MatrixModel(smh,
-					representation.getDescription().getSimilarityMetrics().getSimilarityMatrix());
-
-		}
-
-		public MatrixModel getSimilarityMatrix() {
-			return similarityMatrix;
-		}
-
-	}
 	
 	public static class Facts{
 		
 		private List<Fact> facts = new ArrayList<>();
 		
-		public Facts(IProblemSpace space, IRepresentation representation) {
+		public Facts(ISorter sorter, IRepresentation representation) {
 			Map<Integer, List<String>> objID2acceptedFacts = 
 					representation.mapParticularIDsToFactualDescription(FormattersAbstractFactory.INSTANCE.getFactDisplayer());
 			NavigableSet<Integer> objIDs = new TreeSet<>(objID2acceptedFacts.keySet());
@@ -99,25 +78,19 @@ public class RepresentationModel {
 	}
 
 	private Integer id;
-	private Similarity similarity;
 	private Facts acceptedFacts;
 
-	public RepresentationModel(IProblemSpace space) {
+	public RepresentationModel(ISorter sorter) {
 		super();
-		IRepresentation active = space.getActiveRepresentation();
+		IRepresentation active = sorter.getActiveRepresentation();
 		if (active != null) {
-			this.similarity  =new Similarity(space, active);
-			this.acceptedFacts = new Facts(space, active);
+			this.acceptedFacts = new Facts(sorter, active);
 			id = active.iD();
 		}
 	}
 	
 	public Facts getAcceptedFacts() {
 		return acceptedFacts;
-	}
-	
-	public Similarity getSimilarity() {
-		return similarity;
 	}
 
 	public Integer getId() {

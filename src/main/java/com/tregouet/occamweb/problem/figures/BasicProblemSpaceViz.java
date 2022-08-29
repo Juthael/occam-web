@@ -17,8 +17,8 @@ import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.alg.displayers.formatters.problem_states.ProblemStateLabeller;
 import com.tregouet.occam.alg.displayers.formatters.problem_transitions.ProblemTransitionLabeller;
 import com.tregouet.occam.alg.displayers.visualizers.problem_spaces.ProblemSpaceViz;
-import com.tregouet.occam.data.problem_space.states.IRepresentation;
-import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
+import com.tregouet.occam.data.modules.sorting.transitions.AProblemStateTransition;
+import com.tregouet.occam.data.structures.representations.IRepresentation;
 
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;

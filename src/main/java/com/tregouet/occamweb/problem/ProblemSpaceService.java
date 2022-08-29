@@ -12,7 +12,7 @@ import org.springframework.util.FileSystemUtils;
 @Service
 public class ProblemSpaceService {
 
-	private Map<String, ProblemSpaceWorker> sessionWorkers = new ConcurrentHashMap<>();
+	private Map<String, SorterWorker> sessionWorkers = new ConcurrentHashMap<>();
 
 	public ProblemSpaceService() {
 		try {
@@ -22,8 +22,8 @@ public class ProblemSpaceService {
 		}
 	}
 
-	public ProblemSpaceWorker getOrCreateWorker(String sessionProblemId) {
-		return sessionWorkers.computeIfAbsent(sessionProblemId, sid -> new ProblemSpaceWorker(getWorkerDirectory(sid)));
+	public SorterWorker getOrCreateWorker(String sessionProblemId) {
+		return sessionWorkers.computeIfAbsent(sessionProblemId, sid -> new SorterWorker(getWorkerDirectory(sid)));
 	}
 
 	private Path getWorkerDirectory(String sid) {

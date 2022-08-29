@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.tregouet.occam.data.problem_space.IProblemSpace;
+import com.tregouet.occam.data.modules.sorting.ISorter;
 import com.tregouet.occamweb.examples.ExampleService;
 import com.tregouet.occamweb.problem.models.ContextTableModel;
 import com.tregouet.occamweb.problem.models.ExampleModel;
@@ -33,8 +33,8 @@ import com.tregouet.occamweb.problem.models.RepresentationModel;
 
 @Controller
 @SessionAttributes("state")
-public class ProblemSpaceController {
-	private final static Logger LOGGER = LoggerFactory.getLogger(ProblemSpaceController.class);
+public class SorterController {
+	private final static Logger LOGGER = LoggerFactory.getLogger(SorterController.class);
 
 	@Autowired
 	private ProblemSpaceService problems;
@@ -46,9 +46,9 @@ public class ProblemSpaceController {
 	public String action(@ModelAttribute("state") final ProblemState state, final Model model,
 			@RequestParam("submit") final String action, @RequestParam("representationIDs") final String repIDs, 
 			@RequestParam("representation") final String repID) {
-		ProblemSpaceWorker worker = this.problems.getOrCreateWorker(state.getId());
-		IProblemSpace problemSpace = worker.getProblemSpace();
-		if (problemSpace != null) {
+		SorterWorker worker = this.problems.getOrCreateWorker(state.getId());
+		ISorter sorter = worker.getSorter();
+		if (sorter != null) {
 			try {
 				if (action.equals("develop") || action.equals("restrict")) {
 					List<Integer> iDs = new ArrayList<>();
@@ -69,15 +69,14 @@ public class ProblemSpaceController {
 						if (action.equals("develop"))
 							worker.developRepresentations(iDs);
 						else worker.restrictToRepresentations(iDs);
-						model.addAttribute("space", new ProblemSpaceModel(worker.getProblemSpace()));
+						model.addAttribute("space", new ProblemSpaceModel(worker.getSorter()));
 					}
 				}
 				else if (action.equals("fully-expand")) {
 					worker.fullyExpandProblemSpace();
-					model.addAttribute("space", new ProblemSpaceModel(worker.getProblemSpace()));
+					model.addAttribute("space", new ProblemSpaceModel(worker.getSorter()));
 				}
 				else if (action.equals("display-representation")) {
-					//HERE
 					worker.displayRepresentation(Integer.parseInt(repID));
 				}
 			} catch (Exception e) {
@@ -88,20 +87,20 @@ public class ProblemSpaceController {
 		return "redirect:/process.html";
 	}
 
-	private void fill(final Model model, final IProblemSpace problemSpace) {
-		ContextTableModel context = new ContextTableModel(problemSpace);
+	private void fill(final Model model, final ISorter sorter) {
+		ContextTableModel context = new ContextTableModel(sorter);
 		model.addAttribute("context", context);
-		model.addAttribute("representation", new RepresentationModel(problemSpace));
-		model.addAttribute("space", new ProblemSpaceModel(problemSpace));
+		model.addAttribute("representation", new RepresentationModel(sorter));
+		model.addAttribute("space", new ProblemSpaceModel(sorter));
 	}
 
 	@RequestMapping(value = "/figures/{file_name}", method = RequestMethod.GET,produces =  MediaType.IMAGE_PNG_VALUE)
 	@ResponseBody
 	public FileSystemResource getFigureImage(@ModelAttribute("state") final ProblemState state, 
 			@PathVariable("file_name") final String fileName) {
-		ProblemSpaceWorker worker = this.problems.getOrCreateWorker(state.getId());
-		IProblemSpace problemSpace = worker.getProblemSpace();
-		if (problemSpace != null) {
+		SorterWorker worker = this.problems.getOrCreateWorker(state.getId());
+		ISorter sorter = worker.getSorter();
+		if (sorter != null) {
 			Optional<Path> resource = worker.getResource(fileName);
 			if(resource.isPresent()) {
 				return new FileSystemResource(resource.get()); 
@@ -129,8 +128,8 @@ public class ProblemSpaceController {
 
 	@GetMapping("process.html")
 	public String load(@ModelAttribute("state") final ProblemState state, final Model model) {
-		ProblemSpaceWorker worker = this.problems.getOrCreateWorker(state.getId());
-		IProblemSpace problemSpace = worker.getProblemSpace();
+		SorterWorker worker = this.problems.getOrCreateWorker(state.getId());
+		ISorter problemSpace = worker.getSorter();
 		if (problemSpace != null) {
 			fill(model, problemSpace);
 		}
@@ -140,7 +139,7 @@ public class ProblemSpaceController {
 	@PostMapping("open")
 	public String process(@ModelAttribute("state") final ProblemState state, @RequestParam("input") final String input,
 			final Model model) {
-		ProblemSpaceWorker worker = this.problems.getOrCreateWorker(state.getId());
+		SorterWorker worker = this.problems.getOrCreateWorker(state.getId());
 		try {
 			worker.read(input);
 			return "redirect:/process.html";
