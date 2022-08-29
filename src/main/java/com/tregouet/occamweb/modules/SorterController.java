@@ -1,4 +1,4 @@
-package com.tregouet.occamweb.problem;
+package com.tregouet.occamweb.modules;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -26,10 +26,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.tregouet.occam.data.modules.sorting.ISorter;
 import com.tregouet.occamweb.examples.ExampleService;
-import com.tregouet.occamweb.problem.models.ContextTableModel;
-import com.tregouet.occamweb.problem.models.ExampleModel;
-import com.tregouet.occamweb.problem.models.ProblemSpaceModel;
-import com.tregouet.occamweb.problem.models.RepresentationModel;
+import com.tregouet.occamweb.modules.models.ContextTableModel;
+import com.tregouet.occamweb.modules.models.ExampleModel;
+import com.tregouet.occamweb.modules.models.ProblemSpaceModel;
+import com.tregouet.occamweb.modules.models.RepresentationModel;
 
 @Controller
 @SessionAttributes("state")

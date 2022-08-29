@@ -1,4 +1,4 @@
-package com.tregouet.occamweb.problem;
+package com.tregouet.occamweb.modules;
 
 import java.io.IOException;
 import java.nio.file.Path;

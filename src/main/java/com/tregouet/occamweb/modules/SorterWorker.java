@@ -1,4 +1,4 @@
-package com.tregouet.occamweb.problem;
+package com.tregouet.occamweb.modules;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,11 +21,11 @@ import com.tregouet.occam.data.structures.representations.classifications.concep
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IContextObject;
 import com.tregouet.occam.data.structures.representations.descriptions.IDescription;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
-import com.tregouet.occamweb.problem.SorterMessage.State;
-import com.tregouet.occamweb.problem.figures.BasicConceptGraphViz;
-import com.tregouet.occamweb.problem.figures.BasicDescriptionViz;
-import com.tregouet.occamweb.problem.figures.BasicProblemSpaceViz;
-import com.tregouet.occamweb.problem.figures.BasicTransitionFunctionViz;
+import com.tregouet.occamweb.modules.SorterMessage.State;
+import com.tregouet.occamweb.modules.figures.BasicConceptGraphViz;
+import com.tregouet.occamweb.modules.figures.BasicDescriptionViz;
+import com.tregouet.occamweb.modules.figures.BasicProblemSpaceViz;
+import com.tregouet.occamweb.modules.figures.BasicTransitionFunctionViz;
 
 public class SorterWorker {
 	private Path directory;

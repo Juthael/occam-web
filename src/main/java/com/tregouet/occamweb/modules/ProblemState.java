@@ -1,4 +1,4 @@
-package com.tregouet.occamweb.problem;
+package com.tregouet.occamweb.modules;
 
 public class ProblemState {
 	private String id;
