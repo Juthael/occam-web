@@ -1,6 +1,6 @@
 package com.tregouet.occamweb.modules;
 
-public class SorterMessage {
+public class WorkerMessage {
 	public static enum State {
 		OK, ERROR, WARNING
 	}
@@ -8,7 +8,7 @@ public class SorterMessage {
 	private State state;
 	private String message;
 
-	public SorterMessage(State state, String message) {
+	public WorkerMessage(State state, String message) {
 		super();
 		this.state = state;
 		this.message = message;

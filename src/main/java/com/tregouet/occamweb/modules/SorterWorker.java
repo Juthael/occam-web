@@ -8,7 +8,6 @@ import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,14 +20,14 @@ import com.tregouet.occam.data.structures.representations.classifications.concep
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IContextObject;
 import com.tregouet.occam.data.structures.representations.descriptions.IDescription;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
-import com.tregouet.occamweb.modules.SorterMessage.State;
+import com.tregouet.occamweb.modules.WorkerMessage.State;
 import com.tregouet.occamweb.modules.figures.BasicConceptGraphViz;
 import com.tregouet.occamweb.modules.figures.BasicDescriptionViz;
 import com.tregouet.occamweb.modules.figures.BasicProblemSpaceViz;
 import com.tregouet.occamweb.modules.figures.BasicTransitionFunctionViz;
 
-public class SorterWorker {
-	private Path directory;
+public class SorterWorker extends AWorker implements ISorterWorker {
+	
 	private ISorter sorter;
 	private final static Logger LOGGER = LoggerFactory.getLogger(SorterWorker.class);
 
@@ -38,6 +37,7 @@ public class SorterWorker {
 
 	}
 
+	@Override
 	public void read(String input) throws IOException {
 		Files.createDirectories(directory);
 		Files.writeString(getSorterFile(), input);
@@ -54,6 +54,7 @@ public class SorterWorker {
 		}
 	}
 
+	@Override
 	public ISorter getSorter() {
 		return sorter;
 	}
@@ -62,6 +63,7 @@ public class SorterWorker {
 		return directory.resolve("sorter.txt");
 	}
 
+	@Override
 	public void reset() {
 		if (Files.exists(getSorterFile())) {
 			try {
@@ -73,73 +75,78 @@ public class SorterWorker {
 		}
 	}
 
-	public SorterMessage displayRepresentation(int id) {
+	@Override
+	public WorkerMessage displayRepresentation(int id) {
 		if (sorter == null) {
-			return new SorterMessage(State.ERROR, "Sorter has not been initialized");
+			return new WorkerMessage(State.ERROR, "Sorter has not been initialized");
 		}
 		Boolean result = sorter.display(id);
 		if (result == null) {
-			return new SorterMessage(State.ERROR, "No representation has this ID.");
+			return new WorkerMessage(State.ERROR, "No representation has this ID.");
 		} else if (!result) {
-			return new SorterMessage(State.WARNING, "This representation is already displayed.");
+			return new WorkerMessage(State.WARNING, "This representation is displayed already.");
 		}
 		generateRepresentationFigures();
-		return new SorterMessage(State.OK, "Sorter has been displayed");
+		return new WorkerMessage(State.OK, "Sorter has been displayed");
 
 	}
 
-	public SorterMessage developRepresentation(int id) {
+	@Override
+	public WorkerMessage developRepresentation(int id) {
 		if (sorter == null) {
-			return new SorterMessage(State.ERROR, "Problem space has not been initialized");
+			return new WorkerMessage(State.ERROR, "Problem space has not been initialized");
 		}
 		Boolean result = sorter.develop(id);
 		if (result == null) {
-			return new SorterMessage(State.ERROR, "No representation has this ID.");
+			return new WorkerMessage(State.ERROR, "No representation has this ID.");
 		} else if (!result) {
-			return new SorterMessage(State.WARNING, "This representation is fully developed already. ");
+			return new WorkerMessage(State.WARNING, "This representation is fully developed already. ");
 		}
 		generateProblemSpaceFigure();
-		return new SorterMessage(State.OK, "Representation has been developed");
+		return new WorkerMessage(State.OK, "Representation has been developed");
 	}
 	
-	public SorterMessage developRepresentations(List<Integer> iDs) {
+	@Override
+	public WorkerMessage developRepresentations(List<Integer> iDs) {
 		if (sorter == null) {
-			return new SorterMessage(State.ERROR, "Sorter has not been initialized");
+			return new WorkerMessage(State.ERROR, "Sorter has not been initialized");
 		}
 		Boolean result = sorter.develop(iDs);
 		if (result == null) {
-			return new SorterMessage(State.ERROR, "No representation has been found.");
+			return new WorkerMessage(State.ERROR, "No representation has been found.");
 		} else if (!result) {
-			return new SorterMessage(State.WARNING, "The specified representations are fully developed already. ");
+			return new WorkerMessage(State.WARNING, "The specified representations are fully developed already. ");
 		}
 		generateProblemSpaceFigure();
-		return new SorterMessage(State.OK, "Representations have been developed");
+		return new WorkerMessage(State.OK, "Representations have been developed");
 	}	
 	
-	public SorterMessage restrictToRepresentations(List<Integer> iDs) {
+	@Override
+	public WorkerMessage restrictToRepresentations(List<Integer> iDs) {
 		if (sorter == null) {
-			return new SorterMessage(State.ERROR, "Sorter has not been initialized");
+			return new WorkerMessage(State.ERROR, "Sorter has not been initialized");
 		}
 		Boolean result = sorter.restrictTo(new HashSet<>(iDs));
 		if (result == null) {
-			return new SorterMessage(State.ERROR, "No representation has been found.");
+			return new WorkerMessage(State.ERROR, "No representation has been found.");
 		} else if (!result) {
-			return new SorterMessage(State.WARNING, "The problem space has not been modified. ");
+			return new WorkerMessage(State.WARNING, "The problem space has not been modified. ");
 		}
 		generateProblemSpaceFigure();
-		return new SorterMessage(State.OK, "The problem space has been restricted.");
+		return new WorkerMessage(State.OK, "The problem space has been restricted.");
 	}
 	
-	public SorterMessage fullyExpandProblemSpace() {
+	@Override
+	public WorkerMessage fullyExpandProblemSpace() {
 		if (sorter == null) {
-			return new SorterMessage(State.ERROR, "Sorter has not been initialized");
+			return new WorkerMessage(State.ERROR, "Sorter has not been initialized");
 		}
 		Boolean result = sorter.develop();
 		if (result == null) {
-			return new SorterMessage(State.ERROR, "The problem space cannot be fully developed.");
+			return new WorkerMessage(State.ERROR, "The problem space cannot be fully developed.");
 		}
 		generateProblemSpaceFigure();
-		return new SorterMessage(State.OK, "The problem space has been fully developed.");
+		return new WorkerMessage(State.OK, "The problem space has been fully developed.");
 	}
 	
 	private void generateFigures() {
@@ -160,26 +167,15 @@ public class SorterWorker {
 			if (activeRepresentation != null) {
 				Map<Integer, List<Integer>> conceptID2ExtentID = activeRepresentation.getClassification().mapConceptID2ExtentIDs();
 				IDescription activeDescription = activeRepresentation.getDescription();
-				new BasicDescriptionViz(directory).setUp(conceptID2ExtentID, DescriptionFormat.EXHAUSTIVE)
+				BasicDescriptionViz descrViz = new BasicDescriptionViz(directory);
+				descrViz.setUp(conceptID2ExtentID, DescriptionFormat.EXHAUSTIVE)
 					.apply(activeDescription, "description_exh");
-				new BasicDescriptionViz(directory).setUp(conceptID2ExtentID, DescriptionFormat.OPTIMAL)
+				descrViz.setUp(conceptID2ExtentID, DescriptionFormat.OPTIMAL)
 					.apply(activeDescription, "description_opt");
 				new BasicTransitionFunctionViz(directory).apply(activeRepresentation.getTransitionFunction(), "trans_func");
 				new BasicConceptGraphViz(directory).apply(activeRepresentation.getClassification().asGraph(), "classification_tree", true);
 			}
 		}
-	}
-
-	public Optional<Path> getResource(String fileName) {
-		try {
-			Path rp = directory.resolve(fileName).toRealPath();
-			if (rp.startsWith(directory.toAbsolutePath()) && Files.exists(rp)) {
-				return Optional.of(rp);
-			}
-		} catch (IOException e) {
-
-		}
-		return Optional.empty();
 	}
 
 }

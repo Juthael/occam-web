@@ -22,8 +22,8 @@ public class ProblemSpaceService {
 		}
 	}
 
-	public SorterWorker getOrCreateWorker(String sessionProblemId) {
-		return sessionWorkers.computeIfAbsent(sessionProblemId, sid -> new SorterWorker(getWorkerDirectory(sid)));
+	public ISorterWorker getOrCreateWorker(String sessionSorterId) {
+		return sessionWorkers.computeIfAbsent(sessionSorterId, sid -> new SorterWorker(getWorkerDirectory(sid)));
 	}
 
 	private Path getWorkerDirectory(String sid) {

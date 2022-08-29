@@ -43,10 +43,10 @@ public class SorterController {
 	private ExampleService examples;
 
 	@PostMapping("process/action")
-	public String action(@ModelAttribute("state") final ProblemState state, final Model model,
+	public String action(@ModelAttribute("state") final SorterState state, final Model model,
 			@RequestParam("submit") final String action, @RequestParam("representationIDs") final String repIDs, 
 			@RequestParam("representation") final String repID) {
-		SorterWorker worker = this.problems.getOrCreateWorker(state.getId());
+		ISorterWorker worker = this.problems.getOrCreateWorker(state.getId());
 		ISorter sorter = worker.getSorter();
 		if (sorter != null) {
 			try {
@@ -96,9 +96,9 @@ public class SorterController {
 
 	@RequestMapping(value = "/figures/{file_name}", method = RequestMethod.GET,produces =  MediaType.IMAGE_PNG_VALUE)
 	@ResponseBody
-	public FileSystemResource getFigureImage(@ModelAttribute("state") final ProblemState state, 
+	public FileSystemResource getFigureImage(@ModelAttribute("state") final SorterState state, 
 			@PathVariable("file_name") final String fileName) {
-		SorterWorker worker = this.problems.getOrCreateWorker(state.getId());
+		ISorterWorker worker = this.problems.getOrCreateWorker(state.getId());
 		ISorter sorter = worker.getSorter();
 		if (sorter != null) {
 			Optional<Path> resource = worker.getResource(fileName);
@@ -127,8 +127,8 @@ public class SorterController {
 	}
 
 	@GetMapping("process.html")
-	public String load(@ModelAttribute("state") final ProblemState state, final Model model) {
-		SorterWorker worker = this.problems.getOrCreateWorker(state.getId());
+	public String load(@ModelAttribute("state") final SorterState state, final Model model) {
+		ISorterWorker worker = this.problems.getOrCreateWorker(state.getId());
 		ISorter problemSpace = worker.getSorter();
 		if (problemSpace != null) {
 			fill(model, problemSpace);
@@ -137,9 +137,9 @@ public class SorterController {
 	}
 
 	@PostMapping("open")
-	public String process(@ModelAttribute("state") final ProblemState state, @RequestParam("input") final String input,
+	public String process(@ModelAttribute("state") final SorterState state, @RequestParam("input") final String input,
 			final Model model) {
-		SorterWorker worker = this.problems.getOrCreateWorker(state.getId());
+		ISorterWorker worker = this.problems.getOrCreateWorker(state.getId());
 		try {
 			worker.read(input);
 			return "redirect:/process.html";
@@ -151,7 +151,7 @@ public class SorterController {
 	}
 
 	@ModelAttribute("state")
-	public ProblemState state() {
-		return new ProblemState(UUID.randomUUID().toString());
+	public SorterState state() {
+		return new SorterState(UUID.randomUUID().toString());
 	}
 }
