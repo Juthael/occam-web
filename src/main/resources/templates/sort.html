@@ -21,12 +21,12 @@
 					<div class="col-9">
 						<div class="box-left overflow-auto shadow-lg p-3 mb-5 bg-white rounded">
 							<div th:replace="fragments/context :: context">this is the problem context</div>
-							<div th:replace="fragments/space :: space">this is the problem space</div>
+							<div th:replace="fragments/pb-space :: pb-space">this is the problem space</div>
 							<div th:replace="fragments/representations :: representations">this is the problem representations</div>
 							<div th:replace="fragments/concept-lattice :: concept-lattice">this is the concept lattice</div>
 						</div>
 					</div>
-					<form class="col-3 actions-menu" method="post" action="#" th:action="@{/process/action}">
+					<form class="col-3 actions-menu" method="post" action="#" th:action="@{/sort/action}">
 					
 							<div class="actions-menu-title">Problem space</div>
 							

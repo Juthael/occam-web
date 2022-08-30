@@ -1,10 +1,10 @@
-package com.tregouet.occamweb.modules;
+package com.tregouet.occamweb.process.modules;
 
-public class SorterState {
+public class State {
 	private String id;
 
 	
-	public SorterState(String id) {
+	public State(String id) {
 		super();
 		this.id = id;
 	}

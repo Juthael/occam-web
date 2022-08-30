@@ -1,12 +1,15 @@
-package com.tregouet.occamweb.modules;
+package com.tregouet.occamweb.process.modules.sorter;
 
 import java.util.List;
 
 import com.tregouet.occam.data.modules.sorting.ISorter;
+import com.tregouet.occamweb.process.modules.IWorker;
+import com.tregouet.occamweb.process.modules.WorkerMessage;
 
 public interface ISorterWorker extends IWorker {
 
-	ISorter getSorter();
+	@Override
+	ISorter getModule();
 
 	WorkerMessage displayRepresentation(int id);
 

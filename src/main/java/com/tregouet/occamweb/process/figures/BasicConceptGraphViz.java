@@ -1,4 +1,4 @@
-package com.tregouet.occamweb.modules.figures;
+package com.tregouet.occamweb.process.figures;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +16,6 @@ import org.jgrapht.nio.dot.DOTExporter;
 import com.tregouet.occam.alg.displayers.visualizers.concepts.ConceptGraphViz;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IConcept;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IIsA;
-import com.tregouet.occam.io.output.LocalPaths;
 
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;

@@ -1,4 +1,4 @@
-package com.tregouet.occamweb.modules.models;
+package com.tregouet.occamweb.process.models;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -61,7 +61,7 @@ public class MatrixModel {
 	}
 	
 	
-	public MatrixModel(List<String> headers) {
+	private MatrixModel(List<String> headers) {
 		this.headers = headers;
 	}
 

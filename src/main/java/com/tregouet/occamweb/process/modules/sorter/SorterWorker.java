@@ -1,8 +1,6 @@
-package com.tregouet.occamweb.modules;
+package com.tregouet.occamweb.process.modules.sorter;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashSet;
@@ -16,15 +14,15 @@ import com.tregouet.occam.alg.displayers.visualizers.descriptions.DescriptionFor
 import com.tregouet.occam.data.modules.sorting.ISorter;
 import com.tregouet.occam.data.modules.sorting.impl.Sorter;
 import com.tregouet.occam.data.structures.representations.IRepresentation;
-import com.tregouet.occam.data.structures.representations.classifications.concepts.IConcept;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IContextObject;
 import com.tregouet.occam.data.structures.representations.descriptions.IDescription;
-import com.tregouet.occam.io.input.impl.GenericFileReader;
-import com.tregouet.occamweb.modules.WorkerMessage.State;
-import com.tregouet.occamweb.modules.figures.BasicConceptGraphViz;
-import com.tregouet.occamweb.modules.figures.BasicDescriptionViz;
-import com.tregouet.occamweb.modules.figures.BasicProblemSpaceViz;
-import com.tregouet.occamweb.modules.figures.BasicTransitionFunctionViz;
+import com.tregouet.occamweb.process.figures.BasicConceptGraphViz;
+import com.tregouet.occamweb.process.figures.BasicDescriptionViz;
+import com.tregouet.occamweb.process.figures.BasicProblemSpaceViz;
+import com.tregouet.occamweb.process.figures.BasicTransitionFunctionViz;
+import com.tregouet.occamweb.process.modules.AWorker;
+import com.tregouet.occamweb.process.modules.WorkerMessage;
+import com.tregouet.occamweb.process.modules.WorkerMessage.StateType;
 
 public class SorterWorker extends AWorker implements ISorterWorker {
 	
@@ -34,40 +32,22 @@ public class SorterWorker extends AWorker implements ISorterWorker {
 	public SorterWorker(Path directory) {
 		super();
 		this.directory = directory;
-
 	}
 
 	@Override
-	public void read(String input) throws IOException {
-		Files.createDirectories(directory);
-		Files.writeString(getSorterFile(), input);
-		try (BufferedReader reader = new BufferedReader(new StringReader(input))) {
-			
-			//XXX:this should not be necessary, risk of race condition
-			IContextObject.initializeIDGenerator();
-			IConcept.initializeIDGenerator();
-			IRepresentation.initializeIDGenerator();
-			
-			List<IContextObject> objects = GenericFileReader.getContextObjects(reader);
-			this.sorter = new Sorter().process(objects);
-			generateFigures();
-		}
-	}
-
-	@Override
-	public ISorter getSorter() {
+	public ISorter getModule() {
 		return sorter;
 	}
 
-	private Path getSorterFile() {
+	protected Path getModuleFile() {
 		return directory.resolve("sorter.txt");
 	}
 
 	@Override
 	public void reset() {
-		if (Files.exists(getSorterFile())) {
+		if (Files.exists(getModuleFile())) {
 			try {
-				read(Files.readString(getSorterFile()));
+				read(Files.readString(getModuleFile()));
 			} catch (IOException e) {
 				this.sorter = null;
 				LOGGER.error("Unable to read problem space", e);
@@ -78,78 +58,79 @@ public class SorterWorker extends AWorker implements ISorterWorker {
 	@Override
 	public WorkerMessage displayRepresentation(int id) {
 		if (sorter == null) {
-			return new WorkerMessage(State.ERROR, "Sorter has not been initialized");
+			return new WorkerMessage(StateType.ERROR, "Sorter has not been initialized");
 		}
 		Boolean result = sorter.display(id);
 		if (result == null) {
-			return new WorkerMessage(State.ERROR, "No representation has this ID.");
+			return new WorkerMessage(StateType.ERROR, "No representation has this ID.");
 		} else if (!result) {
-			return new WorkerMessage(State.WARNING, "This representation is displayed already.");
+			return new WorkerMessage(StateType.WARNING, "This representation is displayed already.");
 		}
 		generateRepresentationFigures();
-		return new WorkerMessage(State.OK, "Sorter has been displayed");
+		return new WorkerMessage(StateType.OK, "Sorter has been displayed");
 
 	}
 
 	@Override
 	public WorkerMessage developRepresentation(int id) {
 		if (sorter == null) {
-			return new WorkerMessage(State.ERROR, "Problem space has not been initialized");
+			return new WorkerMessage(StateType.ERROR, "Problem space has not been initialized");
 		}
 		Boolean result = sorter.develop(id);
 		if (result == null) {
-			return new WorkerMessage(State.ERROR, "No representation has this ID.");
+			return new WorkerMessage(StateType.ERROR, "No representation has this ID.");
 		} else if (!result) {
-			return new WorkerMessage(State.WARNING, "This representation is fully developed already. ");
+			return new WorkerMessage(StateType.WARNING, "This representation is fully developed already. ");
 		}
 		generateProblemSpaceFigure();
-		return new WorkerMessage(State.OK, "Representation has been developed");
+		return new WorkerMessage(StateType.OK, "Representation has been developed");
 	}
 	
 	@Override
 	public WorkerMessage developRepresentations(List<Integer> iDs) {
 		if (sorter == null) {
-			return new WorkerMessage(State.ERROR, "Sorter has not been initialized");
+			return new WorkerMessage(StateType.ERROR, "Sorter has not been initialized");
 		}
 		Boolean result = sorter.develop(iDs);
 		if (result == null) {
-			return new WorkerMessage(State.ERROR, "No representation has been found.");
+			return new WorkerMessage(StateType.ERROR, "No representation has been found.");
 		} else if (!result) {
-			return new WorkerMessage(State.WARNING, "The specified representations are fully developed already. ");
+			return new WorkerMessage(StateType.WARNING, "The specified representations are fully developed already. ");
 		}
 		generateProblemSpaceFigure();
-		return new WorkerMessage(State.OK, "Representations have been developed");
+		return new WorkerMessage(StateType.OK, "Representations have been developed");
 	}	
 	
 	@Override
 	public WorkerMessage restrictToRepresentations(List<Integer> iDs) {
 		if (sorter == null) {
-			return new WorkerMessage(State.ERROR, "Sorter has not been initialized");
+			return new WorkerMessage(StateType.ERROR, "Sorter has not been initialized");
 		}
 		Boolean result = sorter.restrictTo(new HashSet<>(iDs));
 		if (result == null) {
-			return new WorkerMessage(State.ERROR, "No representation has been found.");
+			return new WorkerMessage(StateType.ERROR, "No representation has been found.");
 		} else if (!result) {
-			return new WorkerMessage(State.WARNING, "The problem space has not been modified. ");
+			return new WorkerMessage(StateType.WARNING, "The problem space has not been modified. ");
 		}
 		generateProblemSpaceFigure();
-		return new WorkerMessage(State.OK, "The problem space has been restricted.");
+		return new WorkerMessage(StateType.OK, "The problem space has been restricted.");
 	}
 	
 	@Override
 	public WorkerMessage fullyExpandProblemSpace() {
 		if (sorter == null) {
-			return new WorkerMessage(State.ERROR, "Sorter has not been initialized");
+			return new WorkerMessage(StateType.ERROR, "Sorter has not been initialized");
 		}
 		Boolean result = sorter.develop();
 		if (result == null) {
-			return new WorkerMessage(State.ERROR, "The problem space cannot be fully developed.");
+			return new WorkerMessage(StateType.ERROR, "The problem space cannot be fully developed.");
 		}
 		generateProblemSpaceFigure();
-		return new WorkerMessage(State.OK, "The problem space has been fully developed.");
+		return new WorkerMessage(StateType.OK, "The problem space has been fully developed.");
 	}
 	
-	private void generateFigures() {
+	@Override
+	protected void generateFigures() {
 		new BasicConceptGraphViz(directory).apply(sorter.getLatticeOfConcepts(), "concept_lattice", true);
 		generateProblemSpaceFigure();
 		generateRepresentationFigures();
@@ -176,6 +157,11 @@ public class SorterWorker extends AWorker implements ISorterWorker {
 				new BasicConceptGraphViz(directory).apply(activeRepresentation.getClassification().asGraph(), "classification_tree", true);
 			}
 		}
+	}
+
+	@Override
+	protected void initializeModule(List<IContextObject> objects) {
+		this.sorter = new Sorter().process(objects);
 	}
 
 }

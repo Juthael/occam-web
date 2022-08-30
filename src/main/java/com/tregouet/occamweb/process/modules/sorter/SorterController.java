@@ -1,4 +1,4 @@
-package com.tregouet.occamweb.modules;
+package com.tregouet.occamweb.process.modules.sorter;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -9,7 +9,6 @@ import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -25,29 +24,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.tregouet.occam.data.modules.sorting.ISorter;
-import com.tregouet.occamweb.examples.ExampleService;
-import com.tregouet.occamweb.modules.models.ContextTableModel;
-import com.tregouet.occamweb.modules.models.ExampleModel;
-import com.tregouet.occamweb.modules.models.ProblemSpaceModel;
-import com.tregouet.occamweb.modules.models.RepresentationModel;
+import com.tregouet.occamweb.process.models.ContextTableModel;
+import com.tregouet.occamweb.process.models.RepresentationModel;
+import com.tregouet.occamweb.process.modules.AController;
+import com.tregouet.occamweb.process.modules.State;
 
 @Controller
 @SessionAttributes("state")
-public class SorterController {
+public class SorterController extends AController {
+	
 	private final static Logger LOGGER = LoggerFactory.getLogger(SorterController.class);
 
-	@Autowired
-	private ProblemSpaceService problems;
-
-	@Autowired
-	private ExampleService examples;
-
-	@PostMapping("process/action")
-	public String action(@ModelAttribute("state") final SorterState state, final Model model,
+	@PostMapping("sort/action")
+	public String action(@ModelAttribute("state") final State state, final Model model,
 			@RequestParam("submit") final String action, @RequestParam("representationIDs") final String repIDs, 
 			@RequestParam("representation") final String repID) {
-		ISorterWorker worker = this.problems.getOrCreateWorker(state.getId());
-		ISorter sorter = worker.getSorter();
+		ISorterWorker worker = this.workerService.getOrCreateSorterWorker(state.getId());
+		ISorter sorter = worker.getModule();
 		if (sorter != null) {
 			try {
 				if (action.equals("develop") || action.equals("restrict")) {
@@ -69,12 +62,10 @@ public class SorterController {
 						if (action.equals("develop"))
 							worker.developRepresentations(iDs);
 						else worker.restrictToRepresentations(iDs);
-						model.addAttribute("space", new ProblemSpaceModel(worker.getSorter()));
 					}
 				}
 				else if (action.equals("fully-expand")) {
 					worker.fullyExpandProblemSpace();
-					model.addAttribute("space", new ProblemSpaceModel(worker.getSorter()));
 				}
 				else if (action.equals("display-representation")) {
 					worker.displayRepresentation(Integer.parseInt(repID));
@@ -84,22 +75,21 @@ public class SorterController {
 			}
 
 		}
-		return "redirect:/process.html";
+		return "redirect:/sort.html";
 	}
 
 	private void fill(final Model model, final ISorter sorter) {
 		ContextTableModel context = new ContextTableModel(sorter);
 		model.addAttribute("context", context);
 		model.addAttribute("representation", new RepresentationModel(sorter));
-		model.addAttribute("space", new ProblemSpaceModel(sorter));
 	}
 
 	@RequestMapping(value = "/figures/{file_name}", method = RequestMethod.GET,produces =  MediaType.IMAGE_PNG_VALUE)
 	@ResponseBody
-	public FileSystemResource getFigureImage(@ModelAttribute("state") final SorterState state, 
+	public FileSystemResource getFigureImage(@ModelAttribute("state") final State state, 
 			@PathVariable("file_name") final String fileName) {
-		ISorterWorker worker = this.problems.getOrCreateWorker(state.getId());
-		ISorter sorter = worker.getSorter();
+		ISorterWorker worker = this.workerService.getOrCreateSorterWorker(state.getId());
+		ISorter sorter = worker.getModule();
 		if (sorter != null) {
 			Optional<Path> resource = worker.getResource(fileName);
 			if(resource.isPresent()) {
@@ -109,40 +99,24 @@ public class SorterController {
 		}
 		return null;
 	}
-	
-	@GetMapping("")
-	public String toIndex() {
-		return "redirect:/index.html";
-	}
 
-	@GetMapping("index.html")
-	public String index(final Model model) {
-		List<ExampleModel> exampleModels = new ArrayList<>();
-		int position = 1;
-		for (String name : this.examples.getExamples()) {
-			exampleModels.add(new ExampleModel(name, position++));
+	@GetMapping("sort.html")
+	public String load(@ModelAttribute("state") final State state, final Model model) {
+		ISorterWorker worker = this.workerService.getOrCreateSorterWorker(state.getId());
+		ISorter sorter = worker.getModule();
+		if (sorter != null) {
+			fill(model, sorter);
 		}
-		model.addAttribute("examples", exampleModels);
-		return "index";
-	}
-
-	@GetMapping("process.html")
-	public String load(@ModelAttribute("state") final SorterState state, final Model model) {
-		ISorterWorker worker = this.problems.getOrCreateWorker(state.getId());
-		ISorter problemSpace = worker.getSorter();
-		if (problemSpace != null) {
-			fill(model, problemSpace);
-		}
-		return "process";
+		return "sort";
 	}
 
 	@PostMapping("open")
-	public String process(@ModelAttribute("state") final SorterState state, @RequestParam("input") final String input,
+	public String process(@ModelAttribute("state") final State state, @RequestParam("input") final String input,
 			final Model model) {
-		ISorterWorker worker = this.problems.getOrCreateWorker(state.getId());
+		ISorterWorker worker = this.workerService.getOrCreateSorterWorker(state.getId());
 		try {
 			worker.read(input);
-			return "redirect:/process.html";
+			return "redirect:/sort.html";
 		} catch (IOException e) {
 			LOGGER.error("Unable to read input", e);
 			return "redirect:/index.html";
@@ -151,7 +125,7 @@ public class SorterController {
 	}
 
 	@ModelAttribute("state")
-	public SorterState state() {
-		return new SorterState(UUID.randomUUID().toString());
+	public State state() {
+		return new State(UUID.randomUUID().toString());
 	}
 }

@@ -1,8 +1,10 @@
-package com.tregouet.occamweb.modules;
+package com.tregouet.occamweb.process.modules;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Optional;
+
+import com.tregouet.occam.data.modules.IModule;
 
 public interface IWorker {
 	
@@ -11,5 +13,7 @@ public interface IWorker {
 	void reset();
 
 	Optional<Path> getResource(String fileName);
+	
+	IModule getModule();
 
 }

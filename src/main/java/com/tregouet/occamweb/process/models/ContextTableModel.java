@@ -1,4 +1,4 @@
-package com.tregouet.occamweb.modules.models;
+package com.tregouet.occamweb.process.models;
 
 import java.util.ArrayList;
 import java.util.List;

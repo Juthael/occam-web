@@ -1,4 +1,4 @@
-package com.tregouet.occamweb.modules.models;
+package com.tregouet.occamweb.process.models;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -25,7 +25,7 @@ public class RepresentationModel {
 				String header = setHeadOfAcceptedFactsArray(representation, iD);
 				Fact fact = new Fact(header);
 				for (String factString : objID2acceptedFacts.get(iD))
-					fact.values.add(factString);
+					fact.add(factString);
 				facts.add(fact);
 			}
 		}
@@ -73,6 +73,10 @@ public class RepresentationModel {
 		
 		public String getHeader() {
 			return header;
+		}
+		
+		public void add(String factString) {
+			values.add(factString);
 		}
 		
 	}

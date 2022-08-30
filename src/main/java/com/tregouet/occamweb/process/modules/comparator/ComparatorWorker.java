@@ -1,8 +1,6 @@
-package com.tregouet.occamweb.modules;
+package com.tregouet.occamweb.process.modules.comparator;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -15,41 +13,28 @@ import com.tregouet.occam.alg.displayers.visualizers.descriptions.DescriptionFor
 import com.tregouet.occam.data.modules.comparison.IComparator;
 import com.tregouet.occam.data.modules.comparison.impl.Comparator;
 import com.tregouet.occam.data.structures.representations.IRepresentation;
-import com.tregouet.occam.data.structures.representations.classifications.concepts.IConcept;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IContextObject;
 import com.tregouet.occam.data.structures.representations.descriptions.IDescription;
-import com.tregouet.occam.io.input.impl.GenericFileReader;
-import com.tregouet.occamweb.modules.WorkerMessage.State;
-import com.tregouet.occamweb.modules.figures.BasicDescriptionViz;
+import com.tregouet.occamweb.process.figures.BasicDescriptionViz;
+import com.tregouet.occamweb.process.modules.AWorker;
+import com.tregouet.occamweb.process.modules.WorkerMessage;
+import com.tregouet.occamweb.process.modules.WorkerMessage.StateType;
 
 public class ComparatorWorker extends AWorker implements IComparatorWorker {
 	
 	private IComparator comparator;
 	private final static Logger LOGGER = LoggerFactory.getLogger(ComparatorWorker.class);
-
-	@Override
-	public void read(String input) throws IOException {
-		Files.createDirectories(directory);
-		Files.writeString(getComparatorFile(), input);
-		try (BufferedReader reader = new BufferedReader(new StringReader(input))) {
-			
-			//XXX:this should not be necessary, risk of race condition
-			IContextObject.initializeIDGenerator();
-			IConcept.initializeIDGenerator();
-			IRepresentation.initializeIDGenerator();
-			
-			List<IContextObject> objects = GenericFileReader.getContextObjects(reader);
-			this.comparator = new Comparator().process(objects);
-			generateComparisonFigures();
-		}
-
+	
+	public ComparatorWorker(Path directory) {
+		super();
+		this.directory = directory;
 	}
 
 	@Override
 	public void reset() {
-		if (Files.exists(getComparatorFile())) {
+		if (Files.exists(getModuleFile())) {
 			try {
-				read(Files.readString(getComparatorFile()));
+				read(Files.readString(getModuleFile()));
 			} catch (IOException e) {
 				this.comparator = null;
 				LOGGER.error("Unable to read problem space", e);
@@ -58,28 +43,30 @@ public class ComparatorWorker extends AWorker implements IComparatorWorker {
 	}	
 
 	@Override
-	public IComparator getComparator() {
+	public IComparator getModule() {
 		return comparator;
 	}
 
 	@Override
 	public WorkerMessage compare(int id1, int id2) {
 		if (comparator == null)
-			return new WorkerMessage(State.ERROR, "Comparator has not been initialized.");
+			return new WorkerMessage(StateType.ERROR, "Comparator has not been initialized.");
 		Boolean result = comparator.display(id1, id2);
 		if (result == null)
-			return new WorkerMessage(State.ERROR, "Unknown ID.");
+			return new WorkerMessage(StateType.ERROR, "Unknown ID.");
 		else if (!result)
-			return new WorkerMessage(State.WARNING, "This comparison is displayed already.");
-		generateComparisonFigures();
-		return new WorkerMessage(State.OK, "Comparison has been displayed");
+			return new WorkerMessage(StateType.WARNING, "This comparison is displayed already.");
+		generateFigures();
+		return new WorkerMessage(StateType.OK, "Comparison has been displayed");
 	}
 	
-	private Path getComparatorFile() {
+	@Override
+	protected Path getModuleFile() {
 		return directory.resolve("comparator.txt");
 	}
 	
-	private void generateComparisonFigures() {
+	@Override
+	protected void generateFigures() {
 		if (comparator != null) {
 			IRepresentation activeRepOfSimilarity = comparator.getActiveRepresentationOfSimilarity();
 			IRepresentation activeRepOfDifference = comparator.getActiveRepresentationOfDifferences();
@@ -97,6 +84,11 @@ public class ComparatorWorker extends AWorker implements IComparatorWorker {
 				descriptionViz.setUp(conceptID2ExtentID, DescriptionFormat.OPTIMAL).apply(activeDiffDescription, "difference_opt");
 			}
 		}
+	}
+
+	@Override
+	protected void initializeModule(List<IContextObject> objects) {
+		this.comparator = new Comparator().process(objects);
 	}
 
 }

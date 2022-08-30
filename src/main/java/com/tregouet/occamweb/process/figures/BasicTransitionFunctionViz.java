@@ -1,4 +1,4 @@
-package com.tregouet.occamweb.modules.figures;
+package com.tregouet.occamweb.process.figures;
 
 import java.io.File;
 import java.io.IOException;
