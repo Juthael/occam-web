@@ -8,8 +8,6 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.web.bind.annotation.SessionAttributes;
-
 import com.tregouet.occam.data.structures.representations.IRepresentation;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IConcept;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IContextObject;

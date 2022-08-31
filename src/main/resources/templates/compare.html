@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	
+	<head th:replace="fragments/header :: head">...</head>
+
+	<body>
+	
+		<div class = "page">
+			<div th:replace="fragments/header :: header">header</div>
+			<div class="content container-fluid">
+				<div style="padding-bottom:30px;">
+					<a href="/index.html">
+					<button type="button" class="btn btn-primary d-inline-flex justify-content-center align-content-between">
+						<span class="material-icons icon-padding">refresh</span>
+						Use another input context
+					</button>
+					</a>
+				</div>
+				
+				<div class= "row">
+					<div class = "col-9">
+						<div class="box-left overflow-auto shadow-lg p-3 mb-5 bg-white rounded">
+							<div th:replace="fragments/context :: context">
+								this is the problem context
+							</div>
+							<div th:replace="fragments/comparison-metrics :: comparison-metrics">
+								these are the comparison metrics.
+							</div>
+							<div th:replace="fragments/comparison-figures :: comparison-figures">
+								these are the comparison figures.
+							</div>
+						</div>
+					</div>
+					<form class="col-3 actions-menu" method="post" action="#" th:action="@{/compare/action}">
+					
+						<div class="actions-menu-title">Compare two objects.</div>
+						
+						Enter the IDs of two objects, separated by a comma. 
+						
+						<div class="btn-toolbar mb-3" role="toolbar">
+							<div class="input-group">
+							    <div class="input-group-prepend">
+						      		<div class="input-group-text" id="btnGroupAddon">2 IDs</div>
+						    	</div>
+								<input type="text" name="particularIDs" class="form-control" placeholder="ID1, ID2" aria-label="ID1, ID2" aria-describedby="btnGroupAddon">
+							</div>		
+						</div>
+						
+						<div class="btn-group mr-2 mb-3" role="group" aria-label="Pair comparison">
+							<input type="hidden" name="action" value="submit" />
+						    <button id="display-submit" type="submit" name="submit" value="display" data-toggle="tooltip" data-placement="bottom" title="Pair comparison displayed in the left panel" class="btn btn-primary">Compare</button>
+						</div>	
+					
+					</form>
+				</div>
+			
+			</div>
+			<div th:replace="fragments/footer :: footer">footer</div>
+		</div>
+
+	</body>
+</html>

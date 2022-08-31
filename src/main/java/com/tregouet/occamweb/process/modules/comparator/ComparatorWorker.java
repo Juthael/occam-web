@@ -80,8 +80,8 @@ public class ComparatorWorker extends AWorker implements IComparatorWorker {
 			if (activeRepOfDifference != null) {
 				Map<Integer, List<Integer>> conceptID2ExtentID = activeRepOfDifference.getClassification().mapConceptID2ExtentIDs();
 				IDescription activeDiffDescription = activeRepOfDifference.getDescription();
-				descriptionViz.setUp(conceptID2ExtentID, DescriptionFormat.EXHAUSTIVE).apply(activeDiffDescription, "difference_exh");
-				descriptionViz.setUp(conceptID2ExtentID, DescriptionFormat.OPTIMAL).apply(activeDiffDescription, "difference_opt");
+				descriptionViz.setUp(conceptID2ExtentID, DescriptionFormat.EXHAUSTIVE).apply(activeDiffDescription, "differences_exh");
+				descriptionViz.setUp(conceptID2ExtentID, DescriptionFormat.OPTIMAL).apply(activeDiffDescription, "differences_opt");
 			}
 		}
 	}

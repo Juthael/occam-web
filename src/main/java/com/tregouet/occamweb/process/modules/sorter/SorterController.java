@@ -110,20 +110,6 @@ public class SorterController extends AController {
 		return "sort";
 	}
 
-	@PostMapping("open")
-	public String process(@ModelAttribute("state") final State state, @RequestParam("input") final String input,
-			final Model model) {
-		ISorterWorker worker = this.workerService.getOrCreateSorterWorker(state.getId());
-		try {
-			worker.read(input);
-			return "redirect:/sort.html";
-		} catch (IOException e) {
-			LOGGER.error("Unable to read input", e);
-			return "redirect:/index.html";
-		}
-
-	}
-
 	@ModelAttribute("state")
 	public State state() {
 		return new State(UUID.randomUUID().toString());
