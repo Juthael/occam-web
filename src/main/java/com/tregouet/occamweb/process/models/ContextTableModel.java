@@ -1,4 +1,4 @@
-package com.tregouet.occamweb.problem.models;
+package com.tregouet.occamweb.process.models;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
-import com.tregouet.occam.data.problem_space.IProblemSpace;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
+import com.tregouet.occam.data.modules.IModule;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IContextObject;
 
 public class ContextTableModel {
 
@@ -28,7 +28,7 @@ public class ContextTableModel {
 			else return false;
 		}
 
-		public List<ContextConstructs> getList(){
+		public List<ContextConstructs> getList() {
 			return list;
 		}
 
@@ -68,9 +68,9 @@ public class ContextTableModel {
 	private List<Row> rows = new ArrayList<>();
 	private String caption = "Context table";
 
-	public ContextTableModel(IProblemSpace space) {
+	public ContextTableModel(IModule module) {
 		rows.add(new Row());
-		for (IContextObject object : space.getContext()) {
+		for (IContextObject object : module.getContext()) {
 			String title = Integer.toString(object.iD());
 			String subtitle = null;
 			String objName = object.getName();

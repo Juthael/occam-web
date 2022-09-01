@@ -1,4 +1,4 @@
-package com.tregouet.occamweb.problem.figures;
+package com.tregouet.occamweb.process.figures;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,8 +14,8 @@ import org.jgrapht.nio.DefaultAttribute;
 import org.jgrapht.nio.dot.DOTExporter;
 
 import com.tregouet.occam.alg.displayers.visualizers.concepts.ConceptGraphViz;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IConcept;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IIsA;
 
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
@@ -30,9 +30,8 @@ public class BasicConceptGraphViz implements ConceptGraphViz {
 		this.directory = directory;
 	}
 
-
 	@Override
-	public String apply(DirectedAcyclicGraph<IConcept, IIsA> graph, String fileName) {
+	public String apply(DirectedAcyclicGraph<IConcept, IIsA> graph, String fileName, boolean printRedundantDenot) {
 		// convert in DOT format
 		DOTExporter<IConcept, IIsA> exporter = new DOTExporter<>();
 		exporter.setGraphAttributeProvider(() -> {
@@ -42,7 +41,8 @@ public class BasicConceptGraphViz implements ConceptGraphViz {
 		});
 		exporter.setVertexAttributeProvider((v) -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("label", DefaultAttribute.createAttribute(v.toString()));
+			map.put("label", DefaultAttribute.createAttribute(
+					(printRedundantDenot ? v.toString() : v.toStringWithNoRedundantDenotation())));
 			return map;
 		});
 		Writer writer = new StringWriter();
@@ -51,7 +51,7 @@ public class BasicConceptGraphViz implements ConceptGraphViz {
 		// display graph
 		try {
 			MutableGraph dotGraph = new Parser().read(stringDOT);
-			String filePath =   directory.resolve(fileName).toString();
+			String filePath = directory.resolve(fileName).toString();
 			Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File(filePath));
 			return filePath + ".png";
 		} catch (IOException e) {

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<body>
+		<comparison-metrics>
+			<h2>COMPARISON METRICS</h2>
+			<div>
+				<h3>Similarity matrix</h3>
+				<div th:replace="fragments/matrix.html :: matrix(m=${comparison.simMatrix})">
+					This is the similarity matrix.
+				</div>
+			</div> 
+			<div>
+				<h3>Asymmetrical similarity matrix</h3>
+				<div th:replace="fragments/matrix.html :: matrix(m=${comparison.asymmSimMatrix})">
+					This is the asymmetrical similarity matrix.
+				</div>
+			</div>
+			<div>
+				<h3>Typicality</h3>
+				<div th:replace="fragments/vector.html :: vector(v=${comparison.typicalityVector})">
+					This is the typicality vector.
+				</div>
+			</div>
+			<div>
+				<h3>Difference</h3>
+				<div th:replace="fragments/matrix.html :: matrix(m=${comparison.differenceMatrix})">
+					This is the difference matrix.
+				</div>
+			</div>		
+		</comparison-metrics>
+	</body>
+</html>

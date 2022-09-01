@@ -1,4 +1,4 @@
-package com.tregouet.occamweb.problem.figures;
+package com.tregouet.occamweb.process.figures;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,8 +14,8 @@ import org.jgrapht.nio.DefaultAttribute;
 import org.jgrapht.nio.dot.DOTExporter;
 
 import com.tregouet.occam.alg.displayers.visualizers.transition_functions.TransitionFunctionViz;
-import com.tregouet.occam.data.problem_space.states.transitions.AConceptTransitionSet;
-import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
+import com.tregouet.occam.data.structures.representations.transitions.AConceptTransitionSet;
+import com.tregouet.occam.data.structures.representations.transitions.IRepresentationTransitionFunction;
 
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;

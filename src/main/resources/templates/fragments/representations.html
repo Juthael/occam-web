@@ -10,16 +10,14 @@
 				
 				<div>
 					<h3> GENUS / DIFFERENTIAE DESCRIPTION </h3>
-					<div>
-						<img  class="img-fluid"  src="/figures/description.png"></img>
-					</div>
-					<h3> SIMILARITY </h3>
-					<div>
-						<h4> RELATIVE SIMILARITY MATRIX </h4>
+						<h4> Optimal description </h4>
 							<div>
-								<div th:replace="fragments/matrix.html:: matrix(m=${representation.similarity.similarityMatrix})"></div>
+								<img  class="img-fluid"  src="/figures/description_opt.png" alt="optimal description"></img>
 							</div>
-					</div>
+						<h4> Exhaustive description </h4>
+							<div>
+								<img  class="img-fluid"  src="/figures/description_exh.png" alt="exhaustive description"></img>
+							</div>
 					<h3> AUTOMATON TRANSITION FUNCTION </h3>	
 					<div>
 						<img  class="img-fluid center"  src="/figures/trans_func.png"></img>

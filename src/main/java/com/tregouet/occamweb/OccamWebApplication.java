@@ -13,6 +13,7 @@ public class OccamWebApplication {
 	public static final OverallStrategy STRATEGY = Occam.STRATEGY;
 
 	public static void initialize() {
+		OverallAbstractFactory.INSTANCE.apply(Occam.STRATEGY);
 		OverallAbstractFactory.INSTANCE.apply(STRATEGY);
 	}
 

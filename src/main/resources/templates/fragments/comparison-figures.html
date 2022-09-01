@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<body>
+		<comparison-figures>
+			<div class="process-block" th:if="${comparison?.comparedPair}">
+				<h2> COMPARISON OF OBJECTS 
+					<span th:text="${comparison.firstObjectID}">?</span> AND 
+					<span th:text="${comparison.secondObjectID}">?</span> 
+				</h2>
+				<div>
+					<h3> Similarity </h3>
+					<div>
+						<h4> Optimal description </h4>
+						<div>
+							<img class="img-fluid" src="/comparison/figures/similarity_opt.png" alt="optimal description"></img>
+						</div>
+						<h4> Exhaustive description </h4>
+						<div>
+							<img class="img-fluid" src="/comparison/figures/similarity_exh.png" alt="exhaustive description"></img>
+						</div>
+					</div>
+					<h3> Differences </h3>
+					<div>
+						<h4> Optimal description </h4>
+						<div>
+							<img class="img-fluid" src="/comparison/figures/differences_opt.png" alt="optimal description"></img>
+						</div>
+						<h4> Exhaustive description </h4>
+						<div>
+							<img class="img-fluid" src="/comparison/figures/differences_exh.png" alt="exhaustive description"></img>
+						</div>
+					</div>
+				</div>
+			</div>
+		</comparison-figures>
+	</body>
+</html>

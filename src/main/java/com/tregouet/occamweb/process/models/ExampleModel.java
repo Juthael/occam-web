@@ -1,4 +1,4 @@
-package com.tregouet.occamweb.problem.models;
+package com.tregouet.occamweb.process.models;
 
 public class ExampleModel {
 	private String name;
