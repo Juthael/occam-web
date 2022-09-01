@@ -31,7 +31,7 @@ public class WorkerService {
 	public ISorterWorker getOrCreateSorterWorker(String sessionSorterId) {
 		return sorterWorkers.computeIfAbsent(sessionSorterId, sid -> new SorterWorker(getWorkerDirectory(sid)));
 	}
-	
+
 	public IComparatorWorker getOrCreateComparatorWorker(String sessionSorterId) {
 		return comparatorWorkers.computeIfAbsent(sessionSorterId, sid -> new ComparatorWorker(getWorkerDirectory(sid)));
 	}

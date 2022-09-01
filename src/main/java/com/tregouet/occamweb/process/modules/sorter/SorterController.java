@@ -1,6 +1,5 @@
 package com.tregouet.occamweb.process.modules.sorter;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,12 +31,12 @@ import com.tregouet.occamweb.process.modules.State;
 @Controller
 @SessionAttributes("state")
 public class SorterController extends AController {
-	
+
 	private final static Logger LOGGER = LoggerFactory.getLogger(SorterController.class);
 
 	@PostMapping("sort/action")
 	public String action(@ModelAttribute("state") final State state, final Model model,
-			@RequestParam("submit") final String action, @RequestParam("representationIDs") final String repIDs, 
+			@RequestParam("submit") final String action, @RequestParam("representationIDs") final String repIDs,
 			@RequestParam("representation") final String repID) {
 		ISorterWorker worker = this.workerService.getOrCreateSorterWorker(state.getId());
 		ISorter sorter = worker.getModule();
@@ -86,14 +85,14 @@ public class SorterController extends AController {
 
 	@RequestMapping(value = "/figures/{file_name}", method = RequestMethod.GET,produces =  MediaType.IMAGE_PNG_VALUE)
 	@ResponseBody
-	public FileSystemResource getFigureImage(@ModelAttribute("state") final State state, 
+	public FileSystemResource getFigureImage(@ModelAttribute("state") final State state,
 			@PathVariable("file_name") final String fileName) {
 		ISorterWorker worker = this.workerService.getOrCreateSorterWorker(state.getId());
 		ISorter sorter = worker.getModule();
 		if (sorter != null) {
 			Optional<Path> resource = worker.getResource(fileName);
 			if(resource.isPresent()) {
-				return new FileSystemResource(resource.get()); 
+				return new FileSystemResource(resource.get());
 			}
 
 		}
@@ -110,6 +109,7 @@ public class SorterController extends AController {
 		return "sort";
 	}
 
+	@Override
 	@ModelAttribute("state")
 	public State state() {
 		return new State(UUID.randomUUID().toString());

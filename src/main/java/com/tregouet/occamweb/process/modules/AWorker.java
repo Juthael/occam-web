@@ -14,7 +14,7 @@ import com.tregouet.occam.data.structures.representations.classifications.concep
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
 public abstract class AWorker implements IWorker {
-	
+
 	protected Path directory;
 
 	@Override
@@ -29,28 +29,28 @@ public abstract class AWorker implements IWorker {
 		}
 		return Optional.empty();
 	}
-	
+
 	@Override
 	public void read(String input) throws IOException {
 		Files.createDirectories(directory);
 		Files.writeString(getModuleFile(), input);
 		try (BufferedReader reader = new BufferedReader(new StringReader(input))) {
-			
+
 			//XXX:this should not be necessary, risk of race condition
 			IContextObject.initializeIDGenerator();
 			IConcept.initializeIDGenerator();
 			IRepresentation.initializeIDGenerator();
-			
+
 			List<IContextObject> objects = GenericFileReader.getContextObjects(reader);
 			initializeModule(objects);
 			generateFigures();
 		}
-	}	
-	
+	}
+
 	protected abstract void generateFigures();
-	
+
 	protected abstract Path getModuleFile();
-	
+
 	protected abstract void initializeModule(List<IContextObject> objects);
 
 }

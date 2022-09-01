@@ -29,7 +29,7 @@ public class BasicConceptGraphViz implements ConceptGraphViz {
 	public BasicConceptGraphViz(Path directory) {
 		this.directory = directory;
 	}
-	
+
 	@Override
 	public String apply(DirectedAcyclicGraph<IConcept, IIsA> graph, String fileName, boolean printRedundantDenot) {
 		// convert in DOT format

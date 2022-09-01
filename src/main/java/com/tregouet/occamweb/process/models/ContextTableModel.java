@@ -10,15 +10,15 @@ import com.tregouet.occam.data.modules.IModule;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IContextObject;
 
 public class ContextTableModel {
-	
+
 	public static class Row {
-		
+
 		private int cardinal = 0;
 		private List<ContextConstructs> list = new ArrayList<>();
-		
+
 		public Row() {
 		}
-		
+
 		public boolean add(ContextConstructs constructs) {
 			if (cardinal < 3) {
 				list.add(constructs);
@@ -27,11 +27,11 @@ public class ContextTableModel {
 			}
 			else return false;
 		}
-		
+
 		public List<ContextConstructs> getList() {
 			return list;
 		}
-		
+
 	}
 
 	public static class ContextConstructs {
@@ -45,11 +45,11 @@ public class ContextTableModel {
 			this.subtitle = subtitle;
 			this.values = values;
 		}
-		
+
 		public List<String> getValues() {
 			return values;
 		}
-		
+
 		public void setSubtitle(String subtitle) {
 			this.subtitle = subtitle;
 		}
@@ -61,7 +61,7 @@ public class ContextTableModel {
 
 		public String getTitle() {
 			return title;
-		}		
+		}
 
 	}
 
@@ -85,8 +85,8 @@ public class ContextTableModel {
 			}
 		}
 	}
-	
-	
+
+
 	public boolean hasSubtitle() {
 		for (Row row : rows) {
 			for (ContextConstructs constructs : row.getList())

@@ -27,7 +27,7 @@ import guru.nidi.graphviz.model.MutableGraph;
 import guru.nidi.graphviz.parse.Parser;
 
 public class BasicDescriptionViz implements DescriptionViz {
-	
+
 	private Path directory;
 	private Map<Integer, List<Integer>> conceptID2ExtentIDs = null;
 	private DescriptionFormat format = DescriptionFormat.EXHAUSTIVE;
@@ -35,7 +35,7 @@ public class BasicDescriptionViz implements DescriptionViz {
 	public BasicDescriptionViz(Path directory) {
 		this.directory = directory;
 	}
-	
+
 	@Override
 	public String apply(IDescription description, String fileName) {
 		DifferentiaeFormatter diffFormatter = DescriptionViz.differentiaeFormatter();
@@ -67,12 +67,12 @@ public class BasicDescriptionViz implements DescriptionViz {
 			return null;
 		}
 	}
-	
+
 	@Override
 	public BasicDescriptionViz setUp(Map<Integer, List<Integer>> conceptID2ExtentIDs, DescriptionFormat format) {
 		this.conceptID2ExtentIDs = conceptID2ExtentIDs;
 		this.format = format;
 		return this;
-	}	
+	}
 
 }

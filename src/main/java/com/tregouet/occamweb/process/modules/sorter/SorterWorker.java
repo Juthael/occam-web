@@ -25,7 +25,7 @@ import com.tregouet.occamweb.process.modules.WorkerMessage;
 import com.tregouet.occamweb.process.modules.WorkerMessage.StateType;
 
 public class SorterWorker extends AWorker implements ISorterWorker {
-	
+
 	private ISorter sorter;
 	private final static Logger LOGGER = LoggerFactory.getLogger(SorterWorker.class);
 
@@ -39,6 +39,7 @@ public class SorterWorker extends AWorker implements ISorterWorker {
 		return sorter;
 	}
 
+	@Override
 	protected Path getModuleFile() {
 		return directory.resolve("sorter.txt");
 	}
@@ -85,7 +86,7 @@ public class SorterWorker extends AWorker implements ISorterWorker {
 		generateProblemSpaceFigure();
 		return new WorkerMessage(StateType.OK, "Representation has been developed");
 	}
-	
+
 	@Override
 	public WorkerMessage developRepresentations(List<Integer> iDs) {
 		if (sorter == null) {
@@ -99,8 +100,8 @@ public class SorterWorker extends AWorker implements ISorterWorker {
 		}
 		generateProblemSpaceFigure();
 		return new WorkerMessage(StateType.OK, "Representations have been developed");
-	}	
-	
+	}
+
 	@Override
 	public WorkerMessage restrictToRepresentations(List<Integer> iDs) {
 		if (sorter == null) {
@@ -115,7 +116,7 @@ public class SorterWorker extends AWorker implements ISorterWorker {
 		generateProblemSpaceFigure();
 		return new WorkerMessage(StateType.OK, "The problem space has been restricted.");
 	}
-	
+
 	@Override
 	public WorkerMessage fullyExpandProblemSpace() {
 		if (sorter == null) {
@@ -128,20 +129,20 @@ public class SorterWorker extends AWorker implements ISorterWorker {
 		generateProblemSpaceFigure();
 		return new WorkerMessage(StateType.OK, "The problem space has been fully developed.");
 	}
-	
+
 	@Override
 	protected void generateFigures() {
 		new BasicConceptGraphViz(directory).apply(sorter.getLatticeOfConcepts(), "concept_lattice", true);
 		generateProblemSpaceFigure();
 		generateRepresentationFigures();
-	}	
+	}
 
 	private void generateProblemSpaceFigure() {
 		if (sorter != null) {
 			new BasicProblemSpaceViz(directory).apply(sorter.getProblemSpaceGraph(), "problem_space");
 		}
 	}
-	
+
 	private void generateRepresentationFigures() {
 		if (sorter != null) {
 			IRepresentation activeRepresentation = sorter.getActiveRepresentation();

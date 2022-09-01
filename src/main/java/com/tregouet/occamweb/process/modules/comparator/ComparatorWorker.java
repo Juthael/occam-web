@@ -21,10 +21,10 @@ import com.tregouet.occamweb.process.modules.WorkerMessage;
 import com.tregouet.occamweb.process.modules.WorkerMessage.StateType;
 
 public class ComparatorWorker extends AWorker implements IComparatorWorker {
-	
+
 	private IComparator comparator;
 	private final static Logger LOGGER = LoggerFactory.getLogger(ComparatorWorker.class);
-	
+
 	public ComparatorWorker(Path directory) {
 		super();
 		this.directory = directory;
@@ -40,7 +40,7 @@ public class ComparatorWorker extends AWorker implements IComparatorWorker {
 				LOGGER.error("Unable to read problem space", e);
 			}
 		}
-	}	
+	}
 
 	@Override
 	public IComparator getModule() {
@@ -59,12 +59,12 @@ public class ComparatorWorker extends AWorker implements IComparatorWorker {
 		generateFigures();
 		return new WorkerMessage(StateType.OK, "Comparison has been displayed");
 	}
-	
+
 	@Override
 	protected Path getModuleFile() {
 		return directory.resolve("comparator.txt");
 	}
-	
+
 	@Override
 	protected void generateFigures() {
 		if (comparator != null) {

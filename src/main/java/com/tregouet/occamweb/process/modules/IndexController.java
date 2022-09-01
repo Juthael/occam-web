@@ -24,12 +24,12 @@ import com.tregouet.occamweb.process.modules.sorter.SorterController;
 @Controller
 @SessionAttributes("state")
 public class IndexController extends AController {
-	
+
 	private final static Logger LOGGER = LoggerFactory.getLogger(SorterController.class);
-	
+
 	@Autowired
 	private ExampleService examples;
-	
+
 	@GetMapping("")
 	public String toIndex() {
 		return "redirect:/index.html";
@@ -45,7 +45,7 @@ public class IndexController extends AController {
 		model.addAttribute("examples", exampleModels);
 		return "index";
 	}
-	
+
 	@PostMapping("open")
 	public String process(@ModelAttribute("state") final State state, @RequestParam("input") final String input,
 			@RequestParam("submit") final String action) {
@@ -69,6 +69,6 @@ public class IndexController extends AController {
 			}
 		}
 		return "redirect:/index.html";
-	}	
+	}
 
 }
